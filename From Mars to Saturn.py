@@ -30,9 +30,30 @@ from threading import Thread
 import vlc
 import glob
 import random
+import time
 import pygame
 
 #-----------------------------------------------------------------
+"""
+*****************************************************************************************************
+			Instituto Tecnológio de Costa Rica
+			    Ingeniería en Computadores
+			    
+Funciones: load_image, load_mp3, play_fx, play_songs & stop_song
+Lenguaje: Python 3.9.5
+Autores: Byron Mata F.
+         Gustavo Alvarado A.
+
+Vesión: 1.0
+Fecha Última Edición: junio 4/2021
+Entradas: N/D
+Restricciones: N/D
+Salidas: N/D
+
+Autores auxiliares: Jose Fernando Morales
+
+**************************************************************************************************"""
+
 def load_image(nombre):
     ruta = path.join('assets', nombre)
     img = PhotoImage(file=ruta)
@@ -76,7 +97,28 @@ fondo = C_ventana.create_image(0,0, anchor=NW, image=C_ventana.fondo)
 e_jugador = Entry(ventana, width=18, font=fuente)
 e_jugador.place(x=162,y=280)
 
+C_ventana.songPP = load_mp3('PPSong.mp3')
+songPP = play_songs(C_ventana.songPP)
 #------------------------------------------------------------------------------------------------------
+"""
+*****************************************************************************************************
+			Instituto Tecnológio de Costa Rica
+			    Ingeniería en Computadores
+			    
+Funciones: load_sprite & load_images
+Lenguaje: Python 3.9.5
+Autores: Byron Mata F.
+         Gustavo Alvarado A.
+
+Vesión: 1.0
+Fecha Última Edición: junio 5/2021
+Entradas: N/D
+Restricciones: N/D
+Salidas: N/D
+
+Autores auxiliares: Jose Fernando Morales
+
+**************************************************************************************************"""
 def load_sprite(Nombre):
     Frames = glob.glob('assets\\Nave\\' + Nombre)
     Frames.sort()
@@ -93,6 +135,25 @@ Imagenes = load_sprite('tile*.png')
 
 #------------------------------------------------------------------------------------------------------
 def validar():
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                        
+    Función: validar
+    Lenguaje: Python 3.9.5
+    Autores: Gustavo Alvarado A.
+             Byron Mata F.
+
+    Vesión: 1.1
+    Fecha Última Edición: junio 5/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    Autores auxiliares: Jose Fernando Morales
+
+    **************************************************************************************************"""
     global e_jugador
     username = e_jugador.get()
     if (username!=""):
@@ -136,12 +197,33 @@ B_cerrarmenu.place(x=435,y=665)
 Asteroide_img = load_image("Asteroide01.png")
 #------------------------------------------------------------------------------------------------------
 def nivel1():
-    global vida, puntos, username, FLAG
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                    
+    Función: nivel1
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 2.0
+    Fecha Última Edición: junio 12/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    **************************************************************************************************"""
+    global vida, puntos, username, sgnds, pnts, FLAG
     FLAG = True
     vida = 3
-    puntos = 0
+    pnts = 0
+    sgnds = 60
+    contador = 0
 
     ventana.withdraw()
+    #vent_sala.withdraw()
+    #vent_sala.withdraw()
 
     vent_nivel1 = Toplevel()
     vent_nivel1.title('Nivel 1')
@@ -153,16 +235,54 @@ def nivel1():
     C_vent_nivel1.fondo = load_image('Nivel1.png')
     fondo_niveles = C_vent_nivel1.create_image(0, 0, anchor=NW, image = C_vent_nivel1.fondo)
 
+    C_vent_nivel1.songPJ1 = load_mp3('PJ1Song.mp3')
+    songPJ1 = play_songs(C_vent_nivel1.songPJ1)
+
     Frame = Canvas(vent_nivel1, width=500, height=30, highlightthickness=0, bg='#10304a')
     Frame.place(x=0,y=0)
 
-    F_puntos = Frame.create_text(40, 15, text="Score: ", font=('OCR A Extended', 13), fill='white')
-    F_vida = Frame.create_text(170, 15, text="Lifes: ", font=('OCR A Extended', 13), fill='white')
-    F_tiempo = Frame.create_text(290, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
+    Vida = Label(vent_nivel1, text="Life: "+str(vida), font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Vida.place(x=130,y=3)
+    Puntos = Label(vent_nivel1, text="Score: "+str(pnts), font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Puntos.place(x=10,y=3)
+    Temp = Label(vent_nivel1, font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Temp.place(x=310,y=3)
+
+    F_tiempo = Frame.create_text(284, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
     F_jugadador = Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
 
-     # -----------------------------------------------------------------------------------------------------
+    # -----------------------------------------------------------------------------------------------------
+    def temporizador():
+        global sgnds, contador, pnts
+        sgnds = sgnds - 1
+        pnts = pnts + 1
+        contador=vent_nivel1.after(1000, temporizador)
+        Temp.config(text=(sgnds))
+        Puntos.config(text="Score: "+str(pnts))
+    temporizador()
+
+    # -----------------------------------------------------------------------------------------------------
     def nave():
+        """
+        *****************************************************************************************************
+                    Instituto Tecnológio de Costa Rica
+                        Ingeniería en Computadores
+                        
+        Función: nave
+        Función interna: player_animation
+        Lenguaje: Python 3.9.5
+        Autores: Gustavo Alvarado A.
+                 Byron Mata F.
+
+        Vesión: 1.1
+        Fecha Última Edición: junio 6/2021
+        Entradas: N/D
+        Restricciones: N/D
+        Salidas: N/D
+
+        Autores auxiliares: Jose Fernando Morales
+
+        **************************************************************************************************"""
         nonlocal vent_nivel1
         sprite = C_vent_nivel1.create_image(250, 600, tags=('sprite'))
 
@@ -214,6 +334,24 @@ def nivel1():
     # ------------------------------------------------------------------------------------------------------
     FLAG_AST = True
     def asteroides():
+        """
+        *****************************************************************************************************
+                    Instituto Tecnológio de Costa Rica
+                        Ingeniería en Computadores
+                        
+        Función: nave
+        Funciones internas: condicion, asteroide_move, recursive_move, reverse_move
+        Lenguaje: Python 3.9.5
+        Autores: Gustavo Alvarado A.
+                 Byron Mata F.
+
+        Vesión: 3.0
+        Fecha Última Edición: junio 12/2021
+        Entradas: N/D
+        Restricciones: N/D
+        Salidas: N/D
+
+        **************************************************************************************************"""
         global Asteroide_img
         nonlocal C_vent_nivel1
         Asteroide = C_vent_nivel1.create_image(200,200, anchor=NW, image=Asteroide_img)
@@ -263,7 +401,7 @@ def nivel1():
         condicion()
 
     asteroides()
-    # ------------------------------------------------------------------------------------------------------
+
     # ------------------------------------------------------------------------------------------------------
     def cerrar_nivel1():
         global FLAG
@@ -271,6 +409,8 @@ def nivel1():
         FLAG = False
         FLAG_AST = False
         ventana.deiconify()
+        #vent_sala.deiconify()
+        #vent_sala.destroy()
         vent_nivel1.destroy()
         stop_song()
 
@@ -279,17 +419,35 @@ def nivel1():
     B_cerrar_nivel1 = Button(vent_nivel1, text='←', font=fuente, width=5, height=1, command=cerrar_nivel1)
     B_cerrar_nivel1.place(x=435, y=665)
 
-B_nivel1 = Button(ventana, text='Level Room', font=fuente, width=10, height=1, command=validar)
-B_nivel1.place(x=200, y=400)
-
 # ------------------------------------------------------------------------------------------------------
 def nivel2():
-    global vida, puntos, username, FLAG
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                    
+    Función: nivel2
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 2.0
+    Fecha Última Edición: junio 12/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    **************************************************************************************************"""
+    global vida, puntos, username, sgnds, pnts, FLAG, vent_sala
     FLAG = True
     vida = 3
-    puntos = 0
+    pnts = 0
+    sgnds = 60
+    contador = 0
 
     ventana.withdraw()
+    #vent_sala.withdraw()
+    #vent_sala.withdraw()
 
     vent_nivel2 = Toplevel()
     vent_nivel2.title('Nivel 2')
@@ -304,13 +462,49 @@ def nivel2():
     Frame = Canvas(vent_nivel2, width=500, height=30, highlightthickness=0, bg='#10304a')
     Frame.place(x=0,y=0)
 
-    Frame.create_text(40, 15, text="Score: ", font=('OCR A Extended', 13), fill='white')
-    Frame.create_text(170, 15, text="Lifes: ", font=('OCR A Extended', 13), fill='white')
-    Frame.create_text(290, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
-    Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
+    Vida = Label(vent_nivel2, text="Life: "+str(vida), font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Vida.place(x=130,y=3)
+    Puntos = Label(vent_nivel2, text="Score: "+str(pnts), font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Puntos.place(x=10,y=3)
+    Temp = Label(vent_nivel2, font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Temp.place(x=310,y=3)
 
-    # ------------------------------------------------------------------------------------------------------
+    F_tiempo = Frame.create_text(284, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
+    F_jugadador = Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
+
+    # -----------------------------------------------------------------------------------------------------
+    def temporizador():
+        global sgnds, contador, pnts
+        sgnds = sgnds - 1
+        pnts = pnts + 1
+        contador=vent_nivel2.after(1000, temporizador)
+        Temp.config(text=(sgnds))
+        Puntos.config(text="Score: "+str(pnts))
+    
+    temporizador()
+
+    # -----------------------------------------------------------------------------------------------------
     def nave():
+        """
+        *****************************************************************************************************
+                    Instituto Tecnológio de Costa Rica
+                        Ingeniería en Computadores
+                        
+        Función: nave
+        Función interna: player_animation
+        Lenguaje: Python 3.9.5
+        Autores: Gustavo Alvarado A.
+                 Byron Mata F.
+
+        Vesión: 1.1
+        Fecha Última Edición: junio 6/2021
+        Entradas: N/D
+        Restricciones: N/D
+        Salidas: N/D
+
+        Autores auxiliares: Jose Fernando Morales
+
+        **************************************************************************************************"""
         sprite = C_vent_nivel2.create_image(250, 340, tags=('sprite'))
 
         def player_animation(X):
@@ -365,6 +559,8 @@ def nivel2():
         global FLAG
         FLAG = False
         ventana.deiconify()
+        #vent_sala.deiconify()
+        #vent_sala.destroy()
         vent_nivel2.destroy()
         stop_song()
 
@@ -373,17 +569,35 @@ def nivel2():
     B_cerrar_nivel2 = Button(vent_nivel2, text='←', font=fuente, width=5, height=1, command=cerrar_nivel2)
     B_cerrar_nivel2.place(x=435, y=665)
 
-B_nivel2 = Button(ventana, text='Level Room', font=fuente, width=10, height=1, command=validar)
-B_nivel2.place(x=200, y=400)
-
 # ------------------------------------------------------------------------------------------------------
 def nivel3():
-    global vida, puntos, username, FLAG
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                    
+    Función: nivel3
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 2.0
+    Fecha Última Edición: junio 12/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    **************************************************************************************************"""
+    global vida, puntos, username, sgnds, pnts, FLAG, vent_sala
     FLAG = True
     vida = 3
-    puntos = 0
+    pnts = 0
+    sgnds = 60
+    contador = 0
 
     ventana.withdraw()
+    #vent_sala.withdraw()
+    #vent_sala.withdraw()
 
     vent_nivel3 = Toplevel()
     vent_nivel3.title('Nivel 3')
@@ -399,13 +613,49 @@ def nivel3():
     Frame = Canvas(vent_nivel3, width=500, height=30, highlightthickness=0, bg='#10304a')
     Frame.place(x=0,y=0)
 
-    Frame.create_text(40, 15, text="Score: ", font=('OCR A Extended', 13), fill='white')
-    Frame.create_text(170, 15, text="Lifes: ", font=('OCR A Extended', 13), fill='white')
-    Frame.create_text(290, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
-    Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
+    Vida = Label(vent_nivel3, text="Life: "+str(vida), font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Vida.place(x=130,y=3)
+    Puntos = Label(vent_nivel3, text="Score: "+str(pnts), font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Puntos.place(x=10,y=3)
+    Temp = Label(vent_nivel3, font=('OCR A Extended', 12), bg='#10304a', fg='white')
+    Temp.place(x=310,y=3)
 
-    # ------------------------------------------------------------------------------------------------------
+    F_tiempo = Frame.create_text(284, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
+    F_jugadador = Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
+
+    # -----------------------------------------------------------------------------------------------------
+    def temporizador():
+        global sgnds, contador, pnts
+        sgnds = sgnds - 1
+        pnts = pnts + 1
+        contador=vent_nivel3.after(1000, temporizador)
+        Temp.config(text=(sgnds))
+        Puntos.config(text="Score: "+str(pnts))
+    
+    temporizador()
+
+    # -----------------------------------------------------------------------------------------------------
     def nave():
+        """
+        *****************************************************************************************************
+                    Instituto Tecnológio de Costa Rica
+                        Ingeniería en Computadores
+                        
+        Función: nave
+        Función interna: player_animation
+        Lenguaje: Python 3.9.5
+        Autores: Gustavo Alvarado A.
+                 Byron Mata F.
+
+        Vesión: 1.1
+        Fecha Última Edición: junio 6/2021
+        Entradas: N/D
+        Restricciones: N/D
+        Salidas: N/D
+
+        Autores auxiliares: Jose Fernando Morales
+
+        **************************************************************************************************"""
         sprite = C_vent_nivel3.create_image(250, 340, tags=('sprite'))
 
         def player_animation(X):
@@ -455,8 +705,93 @@ def nivel3():
 
     nave()
 
+    # -----------------------------------------------------------------------------------------------------
+    def cerrar_nivel3():
+        global FLAG
+        FLAG = False
+        ventana.deiconify()
+        #vent_sala.deiconify()
+        #vent_sala.destroy()
+        vent_nivel3.destroy()
+        stop_song()
+    
+    vent_nivel3.protocol('WM_DELETE_WINDOW', cerrar_nivel3)
+
+    B_cerrar_nivel3 = Button(vent_nivel3, text='←', font=fuente, width=5, height=1, command=cerrar_nivel3)
+    B_cerrar_nivel3.place(x=435, y=665)
+
+#------------------------------------------------------------------------------------------------------
+def sala():
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                    
+    Función: sala
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 1.2
+    Fecha Última Edición: junio 11/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    **************************************************************************************************"""
+    ventana.withdraw()
+
+    vent_sala = Toplevel()
+    vent_sala.title('Sala de Niveles')
+    vent_sala.minsize(500, 700)
+    vent_sala.resizable(width=NO, height=NO)
+
+    C_vent_sala = Canvas(vent_sala, bg='black', width=500, height=700, highlightthickness=0)
+    C_vent_sala.place(x=0, y=0)
+
+    C_vent_sala.fondo = load_image('Creditos.png')
+    fondo_sala = C_vent_sala.create_image(0, 0, anchor=NW, image=C_vent_sala.fondo)
+
+    B_nivel1 = Button(vent_sala, text='Level 1', font=fuente, width=10, height=1, command=nivel1)
+    B_nivel1.place(x=200, y=150)
+
+    B_nivel2 = Button(vent_sala, text='Level 2', font=fuente, width=10, height=1, command=nivel2)
+    B_nivel2.place(x=200, y=350)
+
+    B_nivel3 = Button(vent_sala, text='Level 3', font=fuente, width=10, height=1, command=nivel3)
+    B_nivel3.place(x=200, y=550)
+
+    def cerrar_sala():
+        ventana.deiconify()
+        vent_sala.destroy()
+        stop_song()
+    vent_sala.protocol('WM_DELETE_WINDOW', cerrar_sala)
+
+    B_cerrar_cerrar = Button(vent_sala, text='←', font=fuente, width=5 ,height=1, command=cerrar_sala)
+    B_cerrar_cerrar.place(x=435,y=665)
+
+B_sala = Button(ventana, text='Level Room', font=fuente, width=10, height=1, command=sala)
+B_sala.place(x=200,y=400)
+
 #------------------------------------------------------------------------------------------------------
 def puntaje():
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                    
+    Función: puntaje
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 2.0
+    Fecha Última Edición: junio 14/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    **************************************************************************************************"""
     ventana.withdraw()
 
     vent_puntajes = Toplevel()
@@ -466,7 +801,7 @@ def puntaje():
     C_vent_puntajes = Canvas(vent_puntajes, bg='black', width=500, height=700, highlightthickness = 0)
     C_vent_puntajes.place(x=0,y=0)
 
-    C_vent_puntajes.fondo = load_image('Pantalla_niveles.png')
+    C_vent_puntajes.fondo = load_image('Creditos.png')
     fondo_puntaje = C_vent_puntajes.create_image(0,0, anchor=NW, image = C_vent_puntajes.fondo)
 
     def cerrar_puntajes():
@@ -482,8 +817,24 @@ B_sala = Button(ventana, text='Scores', font=fuente, width=10, height=1, command
 B_sala.place(x=200,y=480)
 
 #------------------------------------------------------------------------------------------------------
-
 def credits():
+    """
+    *****************************************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+                    
+    Función: creditos
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 1.0
+    Fecha Última Edición: junio 6/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    **************************************************************************************************"""
     ventana.withdraw()
 
     vent_creditos = Toplevel()
