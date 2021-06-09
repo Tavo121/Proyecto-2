@@ -229,29 +229,32 @@ def nivel1():
 
         def asteroide_move():
             nonlocal FLAG_AST, Contador, C_vent_nivel1, A
-            Ast_x = random.randint(1,10)
-            Ast_y = random.randint(1,10)
+            Ast_x = random.randint(3,8)
+            Ast_y = random.randint(3,8)
             FLAG_AST = True
             Contador += 1
             return recursive_move(Ast_x, Ast_y)
 
         def recursive_move(X,Y):
             nonlocal FLAG_AST, vent_nivel1, C_vent_nivel1, Contador, A
-            if FLAG_AST == True:
-                C_vent_nivel1.move(Asteroide, X, Y)
-                Ast_coords = C_vent_nivel1.coords(Asteroide)
-                def callback(AX,AY):
-                    recursive_move(AX,AY)
-                A = C_vent_nivel1.after(50, callback, X,Y)
-                if Ast_coords[0] < 30 or Ast_coords[0] > 480 or Ast_coords[1] < 20 or Ast_coords[1] > 680:
-                    FLAG_AST = False
-                    C_vent_nivel1.after_cancel(A)
-                    return condicion()
+            try:
+                if FLAG_AST == True:
+                    C_vent_nivel1.move(Asteroide, X, Y)
+                    Ast_coords = C_vent_nivel1.coords(Asteroide)
+                    def callback(AX,AY):
+                        recursive_move(AX,AY)
+                    A = C_vent_nivel1.after(50, callback, X,Y)
+                    if Ast_coords[0] < 20 or Ast_coords[0] > 480 or Ast_coords[1] < 20 or Ast_coords[1] > 650:
+                        FLAG_AST = False
+                        C_vent_nivel1.after_cancel(A)
+                        return condicion()
+            except:
+                return condicion()
 
         def reverse_move():
             nonlocal FLAG_AST, Contador, A, C_vent_nivel1
-            Ast_x = random.randint(-10,-1)
-            Ast_y = random.randint(-10,-1)
+            Ast_x = random.randint(-8,-3)
+            Ast_y = random.randint(-8,-3)
             FLAG_AST = True
             Contador += 1
             C_vent_nivel1.after_cancel(A)
