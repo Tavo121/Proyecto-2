@@ -291,7 +291,7 @@ def nivel1():
             global Imagenes, FLAG
             nonlocal sprite
             if X == 3:
-                X = 0;
+                X = 0
             if FLAG:
                 C_vent_nivel1.itemconfig('sprite', image=Imagenes[X])
 
@@ -359,8 +359,8 @@ def nivel1():
 
         def random_coords1():
             nonlocal FLAG_AST, C_vent_nivel1
-            Ast_x = random.randint(3,8)
-            Ast_y = random.randint(3,8)
+            Ast_x = random.randint(3,7)
+            Ast_y = random.randint(3,7)
             FLAG_AST = True
             return recursive_move(Ast_x, Ast_y)
 
@@ -368,7 +368,7 @@ def nivel1():
             nonlocal FLAG_AST, vent_nivel1, C_vent_nivel1, Asteroide, After
             if FLAG_AST:
                 C_vent_nivel1.move(Asteroide, X, Y)
-                After = C_vent_nivel1.after(10, recursive_move, X,Y)
+                After = C_vent_nivel1.after(60, recursive_move, X,Y)
                 Coords = C_vent_nivel1.coords(Asteroide)
                 if Coords[0] < 10: 
                     FLAG = False
@@ -385,16 +385,16 @@ def nivel1():
 
         def random_coords2():
             nonlocal FLAG_AST, After, C_vent_nivel1
-            Ast_x = random.randint(-8,-3)
-            Ast_y = random.randint(-8,8)
+            Ast_x = random.randint(-7,-3)
+            Ast_y = random.randint(-7,7)
             FLAG_AST = True
             C_vent_nivel1.after_cancel(After)
             return recursive_move(Ast_x, Ast_y)
             
         def random_coords3():
             nonlocal FLAG_AST, After, C_vent_nivel1
-            Ast_x = random.randint(-8,8)
-            Ast_y = random.randint(-8,-3)
+            Ast_x = random.randint(-7,7)
+            Ast_y = random.randint(-7,-3)
             FLAG_AST = True
             C_vent_nivel1.after_cancel(After)
             return recursive_move(Ast_x, Ast_y)
@@ -663,7 +663,7 @@ def nivel3():
             global Imagenes, FLAG
             nonlocal sprite
             if X == 3:
-                X = 0;
+                X = 0
             if FLAG:
                 C_vent_nivel3.itemconfig('sprite', image=Imagenes[X])
 
@@ -753,14 +753,29 @@ def sala():
     C_vent_sala.fondo = load_image('Creditos.png')
     fondo_sala = C_vent_sala.create_image(0, 0, anchor=NW, image=C_vent_sala.fondo)
 
-    B_nivel1 = Button(vent_sala, text='Level 1', font=fuente, width=10, height=1, command=nivel1)
+    def selec_niv1():
+        nonlocal vent_sala
+        vent_sala.destroy()
+        nivel1()
+    
+    B_nivel1 = Button(vent_sala, text='Easy', font=fuente, width=10, height=1, command=selec_niv1)
     B_nivel1.place(x=200, y=150)
 
-    B_nivel2 = Button(vent_sala, text='Level 2', font=fuente, width=10, height=1, command=nivel2)
+    def selec_niv2():
+        nonlocal vent_sala
+        vent_sala.destroy()
+        nivel2()
+
+    B_nivel2 = Button(vent_sala, text='Easy +', font=fuente, width=10, height=1, command=selec_niv2)
     B_nivel2.place(x=200, y=350)
 
-    B_nivel3 = Button(vent_sala, text='Level 3', font=fuente, width=10, height=1, command=nivel3)
-    B_nivel3.place(x=200, y=550)
+    def selec_niv3():
+        nonlocal vent_sala
+        vent_sala.destroy()
+        nivel3()
+
+    B_nivel3 = Button(vent_sala, text='Easy ++', font=fuente, width=10, height=1, command=selec_niv3)
+    B_nivel3.place(x=200, y=550)    
 
     def cerrar_sala():
         ventana.deiconify()
