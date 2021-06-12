@@ -81,6 +81,7 @@ def stop_song():
 
 #------------------------------------------------------------------------------------------------------
 fuente = ('OCR A Extended', 12)
+vida = 3
 #------------------------------------------------------------------------------------------------------
 FLAG = True
 
@@ -259,9 +260,13 @@ def nivel1():
         contador=vent_nivel1.after(1000, temporizador)
         Temp.config(text=(sgnds))
         Puntos.config(text="Score: "+str(pnts))
+        if sgnds == 0:
+            cerrar_nivel1()
+            return nivel2()
     temporizador()
 
     # -----------------------------------------------------------------------------------------------------
+    sprite = C_vent_nivel1.create_image(250, 600, tags=('sprite'))
     def nave():
         """
         *****************************************************************************************************
@@ -283,8 +288,7 @@ def nivel1():
         Autores auxiliares: Jose Fernando Morales
 
         **************************************************************************************************"""
-        nonlocal vent_nivel1
-        sprite = C_vent_nivel1.create_image(250, 600, tags=('sprite'))
+        nonlocal vent_nivel1, sprite       
 
         # Animación del jugador
         def player_animation(X):
@@ -359,42 +363,51 @@ def nivel1():
 
         def random_coords1():
             nonlocal FLAG_AST, C_vent_nivel1
-            Ast_x = random.randint(3,7)
-            Ast_y = random.randint(3,7)
+            Ast_x = random.randint(3,6)
+            Ast_y = random.randint(3,6)
             FLAG_AST = True
             return recursive_move(Ast_x, Ast_y)
 
         def recursive_move(X,Y):
-            nonlocal FLAG_AST, vent_nivel1, C_vent_nivel1, Asteroide, After
+            global vida
+            nonlocal FLAG_AST, vent_nivel1, C_vent_nivel1, Asteroide, After, sprite
+            Nave_bx = C_vent_nivel1.bbox(sprite)
+            Asteroide_bx = C_vent_nivel1.bbox(Asteroide)
             if FLAG_AST:
                 C_vent_nivel1.move(Asteroide, X, Y)
-                After = C_vent_nivel1.after(60, recursive_move, X,Y)
+                After = C_vent_nivel1.after(45, recursive_move, X,Y)
                 Coords = C_vent_nivel1.coords(Asteroide)
-                if Coords[0] < 10: 
+                if Coords[0] < 7: 
                     FLAG = False
+                    C_vent_nivel1.after_cancel(After)
                     return random_coords1()
-                elif Coords[1] < 20:
+                elif Coords[1] < 25:
                     FLAG = False
+                    C_vent_nivel1.after_cancel(After)
                     return random_coords1()
-                elif  Coords[0] > 480:
+                elif  Coords[0] > 420:
                     FLAG = False
                     return random_coords2()
-                elif Coords[1] > 680:
+                elif Coords[1] > 665:
                     FLAG = False
                     return random_coords3()
+                elif Nave_bx[2] > Asteroide_bx[0] > Nave_bx[0] and Nave_bx[1] < Asteroide_bx[3] < Nave_bx[3]:
+                    FLAG = False
+                    C_vent_nivel1.after_cancel(After)
+                    C_vent_nivel1.delete(Asteroide)
 
         def random_coords2():
             nonlocal FLAG_AST, After, C_vent_nivel1
-            Ast_x = random.randint(-7,-3)
-            Ast_y = random.randint(-7,7)
+            Ast_x = random.randint(-6,-3)
+            Ast_y = random.randint(-6,6)
             FLAG_AST = True
             C_vent_nivel1.after_cancel(After)
             return recursive_move(Ast_x, Ast_y)
             
         def random_coords3():
             nonlocal FLAG_AST, After, C_vent_nivel1
-            Ast_x = random.randint(-7,7)
-            Ast_y = random.randint(-7,-3)
+            Ast_x = random.randint(-6,6)
+            Ast_y = random.randint(-6,-3)
             FLAG_AST = True
             C_vent_nivel1.after_cancel(After)
             return recursive_move(Ast_x, Ast_y)
