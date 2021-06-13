@@ -498,6 +498,7 @@ def nivel1():
         ventana.deiconify()
         vent_nivel1.destroy()
         stop_song()
+        play_songs(C_ventana.songPP)
 
     vent_nivel1.protocol('WM_DELETE_WINDOW', cerrar_nivel1)
 
@@ -836,6 +837,7 @@ def nivel2():
         ventana.deiconify()
         vent_nivel2.destroy()
         stop_song()
+        play_songs(C_ventana.songPP)
 
     vent_nivel2.protocol('WM_DELETE_WINDOW', cerrar_nivel2)
 
@@ -986,6 +988,7 @@ def nivel3():
         ventana.deiconify()
         vent_nivel3.destroy()
         stop_song()
+        play_songs(C_ventana.songPP)
     
     vent_nivel3.protocol('WM_DELETE_WINDOW', cerrar_nivel3)
 
