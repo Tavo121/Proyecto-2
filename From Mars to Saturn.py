@@ -1,4 +1,4 @@
-creditos = """
+Creditos = """
 Costa Rica
 Instituto Tecnológico de Costa Rica
 Ingeniería en Computadores
@@ -31,30 +31,28 @@ import vlc
 import glob
 import random
 from time import sleep
-import pygame
 
 #-----------------------------------------------------------------
-"""
-*****************************************************************************************************
-			Instituto Tecnológio de Costa Rica
-			    Ingeniería en Computadores
-			    
-Funciones: load_image, load_mp3, play_fx, play_songs & stop_song
-Lenguaje: Python 3.9.5
-Autores: Byron Mata F.
-         Gustavo Alvarado A.
-
-Vesión: 1.0
-Fecha Última Edición: junio 4/2021
-Entradas: N/D
-Restricciones: N/D
-Salidas: N/D
-
-Autores auxiliares: Jose Fernando Morales
-
-**************************************************************************************************"""
-
 def load_image(nombre):
+    """
+    ***************************************************************************
+                            Instituto Tecnológio de Costa Rica
+                                Ingeniería en Computadores
+                                
+    Funciones: load_image, load_mp3, play_fx, play_songs & stop_song
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 1.0
+    Fecha Última Edición: junio 4/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    Autores auxiliares: Jose Fernando Morales
+
+    ***************************************************************************"""
     ruta = path.join('assets', nombre)
     img = PhotoImage(file=ruta)
     return img
@@ -99,28 +97,28 @@ e_jugador = Entry(ventana, width=18, font=fuente)
 e_jugador.place(x=162,y=280)
 
 C_ventana.songPP = load_mp3('PPSong.mp3')
-#songPP = play_songs(C_ventana.songPP)
+songPP = play_songs(C_ventana.songPP)
 #------------------------------------------------------------------------------------------------------
-"""
-*****************************************************************************************************
-			Instituto Tecnológio de Costa Rica
-			    Ingeniería en Computadores
-			    
-Funciones: load_sprite & load_images
-Lenguaje: Python 3.9.5
-Autores: Byron Mata F.
-         Gustavo Alvarado A.
-
-Vesión: 1.0
-Fecha Última Edición: junio 5/2021
-Entradas: N/D
-Restricciones: N/D
-Salidas: N/D
-
-Autores auxiliares: Jose Fernando Morales
-
-**************************************************************************************************"""
 def load_sprite(Nombre):
+    """
+    ***************************************************************************
+                            Instituto Tecnológio de Costa Rica
+                                Ingeniería en Computadores
+                                
+    Funciones: load_sprite & load_images
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 1.0
+    Fecha Última Edición: junio 5/2021
+    Entradas: N/D
+    Restricciones: N/D
+    Salidas: N/D
+
+    Autores auxiliares: Jose Fernando Morales
+
+    ***************************************************************************"""
     Frames = glob.glob('assets\\Nave\\' + Nombre)
     Frames.sort()
     return load_images(Frames, [])
@@ -137,7 +135,7 @@ Imagenes = load_sprite('tile*.png')
 #------------------------------------------------------------------------------------------------------
 def validar():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                         
@@ -154,7 +152,7 @@ def validar():
 
     Autores auxiliares: Jose Fernando Morales
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     global e_jugador
     username = e_jugador.get()
     if (username!=""):
@@ -201,7 +199,7 @@ Asteroide_img2 = load_image("Asteroide02.png")
 Asteroide_img3 = load_image("Asteroide03.png")
 def nivel1():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                     
@@ -216,7 +214,7 @@ def nivel1():
     Restricciones: N/D
     Salidas: N/D
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     global vida, puntos, username, sgnds, pnts, FLAG
     FLAG = True
     vida = 3
@@ -225,8 +223,6 @@ def nivel1():
     contador = 0
 
     ventana.withdraw()
-    #vent_sala.withdraw()
-    #vent_sala.withdraw()
 
     vent_nivel1 = Toplevel()
     vent_nivel1.title('Nivel 1')
@@ -238,8 +234,8 @@ def nivel1():
     C_vent_nivel1.fondo = load_image('Nivel1.png')
     fondo_niveles = C_vent_nivel1.create_image(0, 0, anchor=NW, image = C_vent_nivel1.fondo)
 
-    C_vent_nivel1.songPJ1 = load_mp3('PJ1Song.mp3')
-    #songPJ1 = play_songs(C_vent_nivel1.songPJ1)
+    C_vent_nivel1.songPJ1 = load_mp3('Interplanetary Odyssey.mp3')
+    songPJ1 = play_songs(C_vent_nivel1.songPJ1)
 
     Frame = Canvas(vent_nivel1, width=500, height=30, highlightthickness=0, bg='#10304a')
     Frame.place(x=0,y=0)
@@ -271,10 +267,10 @@ def nivel1():
     sprite = C_vent_nivel1.create_image(250, 600, tags=('sprite'))
     def nave():
         """
-        *****************************************************************************************************
+        ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
-                        
+                            
         Función: nave
         Función interna: player_animation
         Lenguaje: Python 3.9.5
@@ -289,7 +285,7 @@ def nivel1():
 
         Autores auxiliares: Jose Fernando Morales
 
-        **************************************************************************************************"""
+        ***************************************************************************"""
         nonlocal vent_nivel1, sprite       
 
         # Animación del jugador
@@ -343,7 +339,7 @@ def nivel1():
     # ------------------------------------------------------------------------------------------------------
     def asteroides():
         """
-        *****************************************************************************************************
+        ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
                         
@@ -359,7 +355,7 @@ def nivel1():
         Restricciones: N/D
         Salidas: N/D
 
-        **************************************************************************************************"""
+        ***************************************************************************"""
         global Asteroide_img, Asteroide_img2, Asteroide_img3
         nonlocal C_vent_nivel1
         Asteroide = C_vent_nivel1.create_image(200,200, anchor=NW, image=Asteroide_img)
@@ -409,6 +405,8 @@ def nivel1():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After)
                 C_vent_nivel1.delete(Asteroide)
+                C_vent_nivel1.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel1.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
         
@@ -431,6 +429,8 @@ def nivel1():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After2)
                 C_vent_nivel1.delete(Asteroide2)
+                C_vent_nivel1.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel1.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
         
@@ -453,6 +453,8 @@ def nivel1():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After3)
                 C_vent_nivel1.delete(Asteroide3)
+                C_vent_nivel1.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel1.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
 
@@ -494,8 +496,6 @@ def nivel1():
         global FLAG
         FLAG = False        
         ventana.deiconify()
-        #vent_sala.deiconify()
-        #vent_sala.destroy()
         vent_nivel1.destroy()
         stop_song()
 
@@ -507,7 +507,7 @@ def nivel1():
 # ------------------------------------------------------------------------------------------------------
 def nivel2():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                     
@@ -522,7 +522,7 @@ def nivel2():
     Restricciones: N/D
     Salidas: N/D
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     global vida, puntos, username, sgnds, pnts, FLAG, vent_sala
     FLAG = True
     vida = 3
@@ -531,8 +531,6 @@ def nivel2():
     contador = 0
 
     ventana.withdraw()
-    #vent_sala.withdraw()
-    #vent_sala.withdraw()
 
     vent_nivel2 = Toplevel()
     vent_nivel2.title('Nivel 2')
@@ -543,6 +541,9 @@ def nivel2():
 
     C_vent_nivel2.fondo = load_image('Nivel2.png')
     fondo_niveles = C_vent_nivel2.create_image(0, 0, anchor=NW, image=C_vent_nivel2.fondo)
+
+    C_vent_nivel2.songPJ2 = load_mp3('Interstellar Odyssey.mp3')
+    songPJ2 = play_songs(C_vent_nivel2.songPJ2)
 
     Frame = Canvas(vent_nivel2, width=500, height=30, highlightthickness=0, bg='#10304a')
     Frame.place(x=0,y=0)
@@ -572,7 +573,7 @@ def nivel2():
     sprite = C_vent_nivel2.create_image(250, 600, tags=('sprite'))
     def nave():
         """
-        *****************************************************************************************************
+        ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
                         
@@ -590,7 +591,7 @@ def nivel2():
 
         Autores auxiliares: Jose Fernando Morales
 
-        **************************************************************************************************"""        
+        ***************************************************************************"""    
 
         def player_animation(X):
             global Imagenes, FLAG
@@ -641,11 +642,11 @@ def nivel2():
     # ------------------------------------------------------------------------------------------------------
     def asteroides():
         """
-        *****************************************************************************************************
+        ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
                         
-        Función: nave
+        Función: asteroides
         Funciones internas: condicion, asteroide_move, recursive_move, reverse_move
         Lenguaje: Python 3.9.5
         Autores: Gustavo Alvarado A.
@@ -657,7 +658,7 @@ def nivel2():
         Restricciones: N/D
         Salidas: N/D
 
-        **************************************************************************************************"""
+        ***************************************************************************"""
         global Asteroide_img, Asteroide_img2, Asteroide_img3
         nonlocal C_vent_nivel2
         Asteroide = C_vent_nivel2.create_image(200,200, anchor=NW, image=Asteroide_img)
@@ -712,6 +713,8 @@ def nivel2():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After)
                 C_vent_nivel2.delete(Asteroide)
+                C_vent_nivel2.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
         
@@ -734,6 +737,8 @@ def nivel2():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After2)
                 C_vent_nivel2.delete(Asteroide2)
+                C_vent_nivel2.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
         
@@ -756,6 +761,8 @@ def nivel2():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After3)
                 C_vent_nivel2.delete(Asteroide3)
+                C_vent_nivel2.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
         
@@ -778,6 +785,8 @@ def nivel2():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After4)
                 C_vent_nivel2.delete(Asteroide4)
+                C_vent_nivel2.hit = load_mp3('hit.mp3')
+                hit = play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
 
@@ -825,8 +834,6 @@ def nivel2():
         global FLAG
         FLAG = False
         ventana.deiconify()
-        #vent_sala.deiconify()
-        #vent_sala.destroy()
         vent_nivel2.destroy()
         stop_song()
 
@@ -838,7 +845,7 @@ def nivel2():
 # ------------------------------------------------------------------------------------------------------
 def nivel3():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                     
@@ -853,7 +860,7 @@ def nivel3():
     Restricciones: N/D
     Salidas: N/D
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     global vida, puntos, username, sgnds, pnts, FLAG, vent_sala
     FLAG = True
     vida = 3
@@ -862,8 +869,6 @@ def nivel3():
     contador = 0
 
     ventana.withdraw()
-    #vent_sala.withdraw()
-    #vent_sala.withdraw()
 
     vent_nivel3 = Toplevel()
     vent_nivel3.title('Nivel 3')
@@ -875,6 +880,9 @@ def nivel3():
 
     C_vent_nivel3.fondo = load_image('Nivel3.png')
     fondo_niveles = C_vent_nivel3.create_image(0, 0, anchor=NW, image=C_vent_nivel3.fondo)
+
+    C_vent_nivel3.songPJ3 = load_mp3('Intergalactic Odyssey.mp3')
+    songPJ3 = play_songs(C_vent_nivel3.songPJ3)
 
     Frame = Canvas(vent_nivel3, width=500, height=30, highlightthickness=0, bg='#10304a')
     Frame.place(x=0,y=0)
@@ -903,7 +911,7 @@ def nivel3():
     # -----------------------------------------------------------------------------------------------------
     def nave():
         """
-        *****************************************************************************************************
+        ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
                         
@@ -921,7 +929,7 @@ def nivel3():
 
         Autores auxiliares: Jose Fernando Morales
 
-        **************************************************************************************************"""
+        ***************************************************************************"""
         sprite = C_vent_nivel3.create_image(250, 340, tags=('sprite'))
 
         def player_animation(X):
@@ -976,8 +984,6 @@ def nivel3():
         global FLAG
         FLAG = False
         ventana.deiconify()
-        #vent_sala.deiconify()
-        #vent_sala.destroy()
         vent_nivel3.destroy()
         stop_song()
     
@@ -989,7 +995,7 @@ def nivel3():
 #------------------------------------------------------------------------------------------------------
 def sala():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                     
@@ -1004,7 +1010,7 @@ def sala():
     Restricciones: N/D
     Salidas: N/D
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     ventana.withdraw()
 
     vent_sala = Toplevel()
@@ -1045,7 +1051,6 @@ def sala():
     def cerrar_sala():
         ventana.deiconify()
         vent_sala.destroy()
-        stop_song()
     vent_sala.protocol('WM_DELETE_WINDOW', cerrar_sala)
 
     B_cerrar_cerrar = Button(vent_sala, text='←', font=fuente, width=5 ,height=1, command=cerrar_sala)
@@ -1057,7 +1062,7 @@ B_sala.place(x=200,y=400)
 #------------------------------------------------------------------------------------------------------
 def puntaje():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                     
@@ -1072,7 +1077,7 @@ def puntaje():
     Restricciones: N/D
     Salidas: N/D
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     ventana.withdraw()
 
     vent_puntajes = Toplevel()
@@ -1088,7 +1093,6 @@ def puntaje():
     def cerrar_puntajes():
         ventana.deiconify()
         vent_puntajes.destroy()
-        stop_song()
     vent_puntajes.protocol('WM_DELETE_WINDOW', cerrar_puntajes)
 
     B_cerrar_puntajes = Button(vent_puntajes, text='←', font=fuente, width=5 ,height=1, command=cerrar_puntajes)
@@ -1098,9 +1102,9 @@ B_sala = Button(ventana, text='Scores', font=fuente, width=10, height=1, command
 B_sala.place(x=200,y=480)
 
 #------------------------------------------------------------------------------------------------------
-def credits():
+def creditos():
     """
-    *****************************************************************************************************
+    ***************************************************************************
                 Instituto Tecnológio de Costa Rica
                     Ingeniería en Computadores
                     
@@ -1115,7 +1119,7 @@ def credits():
     Restricciones: N/D
     Salidas: N/D
 
-    **************************************************************************************************"""
+    ***************************************************************************"""
     ventana.withdraw()
 
     vent_creditos = Toplevel()
@@ -1128,20 +1132,32 @@ def credits():
     C_vent_creditos.fondo = load_image('Creditos.png')
     fondo_puntaje = C_vent_creditos.create_image(0,0, anchor=NW, image = C_vent_creditos.fondo)
 
-    Text_creditos = C_vent_creditos.create_text(185, 200, fill='#00eaff', font=fuente, text=creditos)
+    Text_creditos = C_vent_creditos.create_text(185, 200, fill='#00eaff', font=fuente, text=Creditos)
     
     def cerrar_creditos():
         ventana.deiconify()
         vent_creditos.destroy()
-        stop_song()
     vent_creditos.protocol('WM_DELETE_WINDOW', cerrar_creditos)
 
     B_cerrar_creditos = Button(vent_creditos, text='←', font=fuente, width=5 ,height=1, command=cerrar_creditos)
     B_cerrar_creditos.place(x=435,y=665)
 
-B_creditos = Button(ventana, text='Credits', font=fuente, width=8, height=1, command=credits)
+B_creditos = Button(ventana, text='Credits', font=fuente, width=8, height=1, command=creditos)
 B_creditos.place(x=5,y=665)
 
 #------------------------------------------------------------------------------------------------------
-
 ventana.mainloop()
+
+#------------------------------------------------------------------------------------------------------
+def doc():
+    print(load_image.__doc__)
+    print(load_sprite.__doc__)
+    print(validar.__doc__)
+    print(nivel1.__doc__)
+    #print(nave.__doc__)
+    #print(asteroides.__doc__)
+    print(nivel2.__doc__)
+    print(nivel3.__doc__)
+    print(sala.__doc__)
+    print(puntaje.__doc__)
+    print(creditos.__doc__)
