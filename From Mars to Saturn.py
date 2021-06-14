@@ -364,7 +364,8 @@ def nivel1():
         After = 0
         After2 = 0
         After3 = 0
-
+        C_vent_nivel1.impact = load_mp3('stone.mp3')
+        C_vent_nivel1.hit = load_mp3('hit.mp3')
         def start():
             nonlocal C_vent_nivel1
             sleep(1)
@@ -394,21 +395,27 @@ def nivel1():
             Coords = C_vent_nivel1.coords(Asteroide)
             Asteroide_bx = C_vent_nivel1.bbox(Asteroide)
             Nave_bx = C_vent_nivel1.bbox(sprite)
-            if Coords[0] < 7:
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords1(1)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords1(1)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords2(1)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords3(1)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After)
                 C_vent_nivel1.delete(Asteroide)
-                C_vent_nivel1.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel1.hit)
+                play_fx(C_vent_nivel1.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(1)
+                    cerrar_nivel1()
         
         def recursive_move2(X,Y):
             global vida
@@ -418,7 +425,7 @@ def nivel1():
             Coords = C_vent_nivel1.coords(Asteroide2)
             Asteroide_bx = C_vent_nivel1.bbox(Asteroide2)
             Nave_bx = C_vent_nivel1.bbox(sprite)
-            if Coords[0] < 7:
+            if Coords[0] < 2:
                 return random_coords1(2)
             elif Coords[1] < 25:
                 return random_coords1(2)
@@ -429,11 +436,13 @@ def nivel1():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After2)
                 C_vent_nivel1.delete(Asteroide2)
-                C_vent_nivel1.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel1.hit)
+                play_fx(C_vent_nivel1.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
-        
+                if vida == 0:
+                    game_over(1)
+                    cerrar_nivel1()
+
         def recursive_move3(X,Y):
             global vida
             nonlocal C_vent_nivel1, Asteroide3, After3, sprite, Vida 
@@ -442,22 +451,28 @@ def nivel1():
             Coords = C_vent_nivel1.coords(Asteroide3)
             Asteroide_bx = C_vent_nivel1.bbox(Asteroide3)
             Nave_bx = C_vent_nivel1.bbox(sprite)
-            if Coords[0] < 7: 
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords1(3)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords1(3)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords2(3)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords3(3)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After3)
                 C_vent_nivel1.delete(Asteroide3)
-                C_vent_nivel1.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel1.hit)
+                play_fx(C_vent_nivel1.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
-
+                if vida == 0:
+                    game_over(1)
+                    cerrar_nivel1()
+                    
         # ------------------------------------------------------------------------------------------------------
         def random_coords2(Ast):
             nonlocal After, C_vent_nivel1, After2, After3
@@ -670,7 +685,8 @@ def nivel2():
         After2 = 0
         After3 = 0
         After4 = 0
-
+        C_vent_nivel2.impact = load_mp3('stone.mp3')
+        C_vent_nivel2.hit = load_mp3('hit.mp3')
         def start():
             nonlocal C_vent_nivel2
             sleep(1)
@@ -703,22 +719,28 @@ def nivel2():
             Coords = C_vent_nivel2.coords(Asteroide)
             Asteroide_bx = C_vent_nivel2.bbox(Asteroide)
             Nave_bx = C_vent_nivel2.bbox(sprite)
-            if Coords[0] < 7:
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(1)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(1)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords2(1)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords3(1)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After)
                 C_vent_nivel2.delete(Asteroide)
-                C_vent_nivel2.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel2.hit)
+                play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
-        
+                if vida == 0:
+                    game_over(2)
+                    cerrar_nivel2()
+                    
         def recursive_move2(X,Y):
             global vida
             nonlocal C_vent_nivel2, Asteroide2, After2, sprite, Vida 
@@ -727,7 +749,7 @@ def nivel2():
             Coords = C_vent_nivel2.coords(Asteroide2)
             Asteroide_bx = C_vent_nivel2.bbox(Asteroide2)
             Nave_bx = C_vent_nivel2.bbox(sprite)
-            if Coords[0] < 7:
+            if Coords[0] < 2:
                 return random_coords1(2)
             elif Coords[1] < 25:
                 return random_coords1(2)
@@ -738,11 +760,13 @@ def nivel2():
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After2)
                 C_vent_nivel2.delete(Asteroide2)
-                C_vent_nivel2.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel2.hit)
+                play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
-        
+                if vida == 0:
+                    game_over(2)
+                    cerrar_nivel2()
+                                    
         def recursive_move3(X,Y):
             global vida
             nonlocal C_vent_nivel2, Asteroide3, After3, sprite, Vida 
@@ -751,22 +775,28 @@ def nivel2():
             Coords = C_vent_nivel2.coords(Asteroide3)
             Asteroide_bx = C_vent_nivel2.bbox(Asteroide3)
             Nave_bx = C_vent_nivel2.bbox(sprite)
-            if Coords[0] < 7: 
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(3)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(3)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords2(3)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords3(3)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After3)
                 C_vent_nivel2.delete(Asteroide3)
-                C_vent_nivel2.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel2.hit)
+                play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
-        
+                if vida == 0:
+                    game_over(2)
+                    cerrar_nivel2()
+                    
         def recursive_move4(X,Y):
             global vida
             nonlocal C_vent_nivel2, Asteroide4, After4, sprite, Vida 
@@ -775,21 +805,27 @@ def nivel2():
             Coords = C_vent_nivel2.coords(Asteroide4)
             Asteroide_bx = C_vent_nivel2.bbox(Asteroide4)
             Nave_bx = C_vent_nivel2.bbox(sprite)
-            if Coords[0] < 7: 
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(4)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(4)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords2(4)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords3(4)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After4)
                 C_vent_nivel2.delete(Asteroide4)
-                C_vent_nivel2.hit = load_mp3('hit.mp3')
-                hit = play_fx(C_vent_nivel2.hit)
+                play_fx(C_vent_nivel2.hit)
                 vida -= 1
                 Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(2)
+                    cerrar_nivel2()
 
         # ------------------------------------------------------------------------------------------------------
         def random_coords2(Ast):
@@ -911,6 +947,7 @@ def nivel3():
     temporizador()
 
     # -----------------------------------------------------------------------------------------------------
+    sprite = C_vent_nivel3.create_image(250, 650, tags=('sprite'))
     def nave():
         """
         ***************************************************************************
@@ -932,7 +969,6 @@ def nivel3():
         Autores auxiliares: Jose Fernando Morales
 
         ***************************************************************************"""
-        sprite = C_vent_nivel3.create_image(250, 340, tags=('sprite'))
 
         def player_animation(X):
             global Imagenes, FLAG
@@ -981,6 +1017,257 @@ def nivel3():
 
     nave()
 
+    def asteroides():
+        """
+        ***************************************************************************
+                    Instituto Tecnológio de Costa Rica
+                        Ingeniería en Computadores
+                        
+        Función: asteroides
+        Funciones internas: condicion, asteroide_move, recursive_move, reverse_move
+        Lenguaje: Python 3.9.5
+        Autores: Gustavo Alvarado A.
+                 Byron Mata F.
+
+        Vesión: 3.0
+        Fecha Última Edición: junio 12/2021
+        Entradas: N/D
+        Restricciones: N/D
+        Salidas: N/D
+
+        ***************************************************************************"""
+        global Asteroide_img, Asteroide_img2, Asteroide_img3
+        nonlocal C_vent_nivel3
+        Asteroide = C_vent_nivel3.create_image(200,200, anchor=NW, image=Asteroide_img)
+        Asteroide2 = C_vent_nivel3.create_image(480,200, anchor=NW, image=Asteroide_img2)
+        Asteroide3 = C_vent_nivel3.create_image(50,100, anchor=NW, image=Asteroide_img3)
+        Asteroide4 = C_vent_nivel3.create_image(50,620, anchor=NW, image=Asteroide_img2)
+        Asteroide5 = C_vent_nivel3.create_image(350,350, anchor=NW, image=Asteroide_img)
+        After = 0
+        After2 = 0
+        After3 = 0
+        After4 = 0
+        After5 = 0
+        C_vent_nivel3.impact = load_mp3('stone.mp3')
+        C_vent_nivel3.hit = load_mp3('hit.mp3')
+        def start():
+            nonlocal C_vent_nivel3
+            sleep(1)
+            Ast_x = random.randint(4,6)
+            Ast_y = random.randint(4,6)
+            return recursive_move(Ast_x, Ast_y), recursive_move2(Ast_x, Ast_y), recursive_move3(Ast_x, Ast_y), recursive_move4(Ast_x, Ast_y), recursive_move5(Ast_x, Ast_y)
+
+        def random_coords1(Ast):
+            nonlocal C_vent_nivel3, After, After2, After3, After4, After5
+            Ast_x = random.randint(4,6)
+            Ast_y = random.randint(4,6)
+            if Ast == 1:
+                C_vent_nivel3.after_cancel(After)
+                return recursive_move(Ast_x, Ast_y)
+            elif Ast == 2:
+                C_vent_nivel3.after_cancel(After2)
+                return recursive_move2(Ast_x, Ast_y)   
+            elif Ast == 3:
+                C_vent_nivel3.after_cancel(After3)
+                return recursive_move3(Ast_x, Ast_y)
+            elif Ast == 4:
+                C_vent_nivel3.after_cancel(After4)
+                return recursive_move4(Ast_x, Ast_y)
+            elif Ast == 5:
+                C_vent_nivel3.after_cancel(After5)
+                return recursive_move5(Ast_x, Ast_y)
+        # ------------------------------------------------------------------------------------------------------
+        def recursive_move(X,Y):
+            global vida
+            nonlocal C_vent_nivel3, Asteroide, After, sprite, Vida       
+            C_vent_nivel3.move(Asteroide, X, Y)                
+            After = C_vent_nivel3.after(45, recursive_move, X,Y)
+            Coords = C_vent_nivel3.coords(Asteroide)
+            Asteroide_bx = C_vent_nivel3.bbox(Asteroide)
+            Nave_bx = C_vent_nivel3.bbox(sprite)
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(1)
+            elif Coords[1] < 25:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(1)
+            elif  Coords[0] > 420:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords2(1)
+            elif Coords[1] > 665:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords3(1)
+            elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
+                C_vent_nivel3.after_cancel(After)
+                C_vent_nivel3.delete(Asteroide)
+                play_fx(C_vent_nivel3.hit)
+                vida -= 1
+                Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(3)
+                    cerrar_nivel3()
+                                                 
+        def recursive_move2(X,Y):
+            global vida
+            nonlocal C_vent_nivel3, Asteroide2, After2, sprite, Vida 
+            C_vent_nivel3.move(Asteroide2, X, Y)
+            After2 = C_vent_nivel3.after(45, recursive_move2, X,Y)
+            Coords = C_vent_nivel3.coords(Asteroide2)
+            Asteroide_bx = C_vent_nivel3.bbox(Asteroide2)
+            Nave_bx = C_vent_nivel3.bbox(sprite)
+            if Coords[0] < 2:
+                return random_coords1(2)
+            elif Coords[1] < 25:
+                return random_coords1(2)
+            elif  Coords[0] > 420:
+                return random_coords2(2)
+            elif Coords[1] > 665:
+                return random_coords3(2)
+            elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
+                C_vent_nivel3.after_cancel(After2)
+                C_vent_nivel3.delete(Asteroide2)
+                play_fx(C_vent_nivel3.hit)
+                vida -= 1
+                Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(3)
+                    cerrar_nivel3()
+                                  
+        def recursive_move3(X,Y):
+            global vida
+            nonlocal C_vent_nivel3, Asteroide3, After3, sprite, Vida 
+            C_vent_nivel3.move(Asteroide3, X, Y)
+            After3 = C_vent_nivel3.after(45, recursive_move3, X,Y)
+            Coords = C_vent_nivel3.coords(Asteroide3)
+            Asteroide_bx = C_vent_nivel3.bbox(Asteroide3)
+            Nave_bx = C_vent_nivel3.bbox(sprite)
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(3)
+            elif Coords[1] < 25:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(3)
+            elif  Coords[0] > 420:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords2(3)
+            elif Coords[1] > 665:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords3(3)
+            elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
+                C_vent_nivel3.after_cancel(After3)
+                C_vent_nivel3.delete(Asteroide3)
+                play_fx(C_vent_nivel3.hit)
+                vida -= 1
+                Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(3)
+                    cerrar_nivel3()
+                                    
+        def recursive_move4(X,Y):
+            global vida
+            nonlocal C_vent_nivel3, Asteroide4, After4, sprite, Vida 
+            C_vent_nivel3.move(Asteroide4, X, Y)
+            After4 = C_vent_nivel3.after(45, recursive_move4, X,Y)
+            Coords = C_vent_nivel3.coords(Asteroide4)
+            Asteroide_bx = C_vent_nivel3.bbox(Asteroide4)
+            Nave_bx = C_vent_nivel3.bbox(sprite)
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(4)
+            elif Coords[1] < 25:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(4)
+            elif  Coords[0] > 420:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords2(4)
+            elif Coords[1] > 665:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords3(4)
+            elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
+                C_vent_nivel3.after_cancel(After4)
+                C_vent_nivel3.delete(Asteroide4)
+                play_fx(C_vent_nivel3.hit)
+                vida -= 1
+                Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(3)
+                    cerrar_nivel3()
+                    
+        def recursive_move5(X,Y):
+            global vida
+            nonlocal C_vent_nivel3, Asteroide5, After5, sprite, Vida 
+            C_vent_nivel3.move(Asteroide5, X, Y)
+            After5 = C_vent_nivel3.after(45, recursive_move5, X,Y)
+            Coords = C_vent_nivel3.coords(Asteroide5)
+            Asteroide_bx = C_vent_nivel3.bbox(Asteroide5)
+            Nave_bx = C_vent_nivel3.bbox(sprite)
+            if Coords[0] < 2:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(5)
+            elif Coords[1] < 25:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords1(5)
+            elif  Coords[0] > 420:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords2(5)
+            elif Coords[1] > 665:
+                play_fx(C_vent_nivel3.impact)
+                return random_coords3(5)
+            elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
+                C_vent_nivel3.after_cancel(After5)
+                C_vent_nivel3.delete(Asteroide5)
+                play_fx(C_vent_nivel3.hit)
+                vida -= 1
+                Vida.config(text= "Life: "+str(vida))
+                if vida == 0:
+                    game_over(3)
+                    cerrar_nivel3()
+                                        
+        # ------------------------------------------------------------------------------------------------------
+        def random_coords2(Ast):
+            nonlocal After, C_vent_nivel3, After2, After3, After4, After5
+            Ast_x = random.randint(-6,-4)
+            Ast_y = random.randint(-6,6)            
+            if Ast == 1:
+                C_vent_nivel3.after_cancel(After)
+                return recursive_move(Ast_x, Ast_y)
+            elif Ast == 2:
+                C_vent_nivel3.after_cancel(After2)
+                return recursive_move2(Ast_x, Ast_y)
+            elif Ast == 3:
+                C_vent_nivel3.after_cancel(After3)
+                return recursive_move3(Ast_x, Ast_y)
+            elif Ast == 4:
+                C_vent_nivel3.after_cancel(After4)
+                return recursive_move4(Ast_x, Ast_y)
+            elif Ast == 5:
+                C_vent_nivel3.after_cancel(After5)
+                return recursive_move5(Ast_x, Ast_y)
+            
+        def random_coords3(Ast):
+            nonlocal After, C_vent_nivel3, After2, After3, After4, After5
+            Ast_x = random.randint(-6,6)
+            Ast_y = random.randint(-6,-4)
+            if Ast == 1:
+                C_vent_nivel3.after_cancel(After)
+                return recursive_move(Ast_x, Ast_y)
+            elif Ast == 2:
+                C_vent_nivel3.after_cancel(After2)
+                return recursive_move2(Ast_x, Ast_y)
+            elif Ast == 3:
+                C_vent_nivel3.after_cancel(After3)
+                return recursive_move3(Ast_x, Ast_y)
+            elif Ast == 4:
+                C_vent_nivel3.after_cancel(After4)
+                return recursive_move4(Ast_x, Ast_y)
+            elif Ast == 5:
+                C_vent_nivel3.after_cancel(After5)
+                return recursive_move5(Ast_x, Ast_y)
+        
+        Thread(target = start).start()    
+
+    asteroides()
+
     # -----------------------------------------------------------------------------------------------------
     def cerrar_nivel3():
         global FLAG
@@ -995,6 +1282,28 @@ def nivel3():
     B_cerrar_nivel3 = Button(vent_nivel3, text='←', font=fuente, width=5, height=1, command=cerrar_nivel3)
     B_cerrar_nivel3.place(x=435, y=665)
 
+#------------------------------------------------------------------------------------------------------
+def game_over(nivel):
+    vent_gameover = Toplevel()
+    vent_gameover.title("Fin del Juego")
+    vent_gameover.minsize(300, 300)
+    vent_gameover.resizable(width=NO, height=NO)
+    C_vent_gameover = Canvas(vent_gameover, width=300, height=300, bg='black')
+    C_vent_gameover.pack()
+    
+    C_vent_gameover.fondo = load_image('Game_over.png')
+    fondo_gameover = C_vent_gameover.create_image(0, 0, anchor=NW, image=C_vent_gameover.fondo)
+    
+    if nivel == 1:
+        B_gameover = Button(vent_gameover, text="Restar", font=fuente, width=10, height=1, command=nivel1)
+        B_gameover.place(x=100,y=180)
+    elif nivel == 2:
+        B_gameover = Button(vent_gameover, text="Restar", font=fuente, width=10, height=1, command=nivel2)
+        B_gameover.place(x=100,y=180)
+    elif nivel == 3:
+        B_gameover = Button(vent_gameover, text="Restar", font=fuente, width=10, height=1, command=nivel3)
+        B_gameover.place(x=100,y=180)
+        
 #------------------------------------------------------------------------------------------------------
 def sala():
     """
