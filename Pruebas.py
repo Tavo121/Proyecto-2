@@ -16,7 +16,30 @@ def load_image(nombre):
 
 Ast = load_image('Asteroide01.png')
 Aste = C.create_image(100,100, image = Ast)
-print(C.bbox(Aste))
+
+Nombree = Entry(v, width = 10)
+Nombree.pack()
+
+score = 100
+def save():
+    global Nombree, score
+    a = Nombree.get()
+    b = "---" + str(score)+", "
+    highscore = a + b
+    Arch = open("Highscore.txt", 'r+')
+    def callback():
+        read = Arch.readline()
+        if read == "":
+            Arch.write(highscore)
+        else:
+            return callback()
+    callback()
+    Arch.close()
+
+Button(v, text = 'Save', command = save).place(x=250, y=400)
+
+
+
 """
 FLAG = True
 def asteroides():
@@ -65,8 +88,9 @@ def asteroides():
 
 
     random1()
-asteroides()
-"""
+asteroides()"""
+
+
 def close():
     global FLAG, v
     FLAG = False
@@ -74,3 +98,6 @@ def close():
 
 v.protocol('WM_DELETE_WINDOW', close)
 v.mainloop()
+
+
+
