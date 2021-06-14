@@ -79,7 +79,11 @@ def stop_song():
 
 #------------------------------------------------------------------------------------------------------
 fuente = ('OCR A Extended', 12)
+global vida
 vida = 3
+global pnts
+pnts = 0
+
 #------------------------------------------------------------------------------------------------------
 FLAG = True
 
@@ -215,10 +219,8 @@ def nivel1():
     Salidas: N/D
 
     ***************************************************************************"""
-    global vida, puntos, username, sgnds, pnts, FLAG
+    global vida, username, sgnds, pnts, FLAG
     FLAG = True
-    vida = 3
-    pnts = 0
     sgnds = 60
     contador = 0
 
@@ -250,7 +252,7 @@ def nivel1():
     F_tiempo = Frame.create_text(284, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
     F_jugadador = Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
 
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     def temporizador():
         global sgnds, contador, pnts
         sgnds = sgnds - 1
@@ -263,7 +265,7 @@ def nivel1():
             return nivel2()
     temporizador()
 
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     sprite = C_vent_nivel1.create_image(250, 600, tags=('sprite'))
     def nave():
         """
@@ -336,7 +338,7 @@ def nivel1():
 
     nave()
 
-    # ------------------------------------------------------------------------------------------------------
+    #------------------------------------------------------------------------------------------------------
     def asteroides():
         """
         ***************************************************************************
@@ -359,13 +361,14 @@ def nivel1():
         global Asteroide_img, Asteroide_img2, Asteroide_img3
         nonlocal C_vent_nivel1
         Asteroide = C_vent_nivel1.create_image(200,200, anchor=NW, image=Asteroide_img)
-        Asteroide2 = C_vent_nivel1.create_image(480,200, anchor=NW, image=Asteroide_img2)
+        Asteroide2 = C_vent_nivel1.create_image(420,200, anchor=NW, image=Asteroide_img2)
         Asteroide3 = C_vent_nivel1.create_image(50,100, anchor=NW, image=Asteroide_img3)
         After = 0
         After2 = 0
         After3 = 0
         C_vent_nivel1.impact = load_mp3('stone.mp3')
         C_vent_nivel1.hit = load_mp3('hit.mp3')
+        
         def start():
             nonlocal C_vent_nivel1
             sleep(1)
@@ -385,8 +388,9 @@ def nivel1():
                 return recursive_move2(Ast_x, Ast_y)   
             elif Ast == 3:
                 C_vent_nivel1.after_cancel(After3)
-                return recursive_move3(Ast_x, Ast_y)     
-        # ------------------------------------------------------------------------------------------------------
+                return recursive_move3(Ast_x, Ast_y)
+            
+        #------------------------------------------------------------------------------------------------------
         def recursive_move(X,Y):
             global vida
             nonlocal C_vent_nivel1, Asteroide, After, sprite, Vida       
@@ -415,8 +419,8 @@ def nivel1():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(1)
-                    cerrar_nivel1()
-        
+                    cerrar_nivel1_v2()
+
         def recursive_move2(X,Y):
             global vida
             nonlocal C_vent_nivel1, Asteroide2, After2, sprite, Vida 
@@ -426,12 +430,16 @@ def nivel1():
             Asteroide_bx = C_vent_nivel1.bbox(Asteroide2)
             Nave_bx = C_vent_nivel1.bbox(sprite)
             if Coords[0] < 2:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords1(2)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords1(2)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords2(2)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel1.impact)
                 return random_coords3(2)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel1.after_cancel(After2)
@@ -441,7 +449,7 @@ def nivel1():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(1)
-                    cerrar_nivel1()
+                    cerrar_nivel1_v2()
 
         def recursive_move3(X,Y):
             global vida
@@ -471,9 +479,9 @@ def nivel1():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(1)
-                    cerrar_nivel1()
-                    
-        # ------------------------------------------------------------------------------------------------------
+                    cerrar_nivel1_v2()
+
+        #------------------------------------------------------------------------------------------------------
         def random_coords2(Ast):
             nonlocal After, C_vent_nivel1, After2, After3
             Ast_x = random.randint(-6,-3)
@@ -506,10 +514,11 @@ def nivel1():
 
     asteroides()
 
-    # ------------------------------------------------------------------------------------------------------
+    #------------------------------------------------------------------------------------------------------
     def cerrar_nivel1():
-        global FLAG
-        FLAG = False        
+        global FLAG, vida
+        FLAG = False
+        vida = 3       
         ventana.deiconify()
         vent_nivel1.destroy()
         stop_song()
@@ -520,7 +529,16 @@ def nivel1():
     B_cerrar_nivel1 = Button(vent_nivel1, text='←', font=fuente, width=5, height=1, command=cerrar_nivel1)
     B_cerrar_nivel1.place(x=435, y=665)
 
-# ------------------------------------------------------------------------------------------------------
+    def cerrar_nivel1_v2():
+        global FLAG
+        FLAG = False
+        vent_nivel1.destroy()
+        stop_song()
+        play_songs(C_ventana.songPP)
+        
+    vent_nivel1.protocol('WM_DELETE_WINDOW', cerrar_nivel1_v2)
+
+#------------------------------------------------------------------------------------------------------
 def nivel2():
     """
     ***************************************************************************
@@ -539,10 +557,8 @@ def nivel2():
     Salidas: N/D
 
     ***************************************************************************"""
-    global vida, puntos, username, sgnds, pnts, FLAG, vent_sala
+    global vida, username, sgnds, pnts, FLAG, vent_sala
     FLAG = True
-    vida = 3
-    pnts = 0
     sgnds = 60
     contador = 0
 
@@ -574,7 +590,7 @@ def nivel2():
     F_tiempo = Frame.create_text(284, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
     F_jugadador = Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
 
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     def temporizador():
         global sgnds, contador, pnts
         sgnds = sgnds - 1
@@ -585,7 +601,7 @@ def nivel2():
     
     temporizador()
     
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     sprite = C_vent_nivel2.create_image(250, 600, tags=('sprite'))
     def nave():
         """
@@ -607,8 +623,8 @@ def nivel2():
 
         Autores auxiliares: Jose Fernando Morales
 
-        ***************************************************************************"""    
-
+        ***************************************************************************"""
+        
         def player_animation(X):
             global Imagenes, FLAG
             nonlocal sprite
@@ -655,7 +671,8 @@ def nivel2():
         vent_nivel2.bind('<Down>', abajo)
 
     nave()
-    # ------------------------------------------------------------------------------------------------------
+    
+    #------------------------------------------------------------------------------------------------------
     def asteroides():
         """
         ***************************************************************************
@@ -678,7 +695,7 @@ def nivel2():
         global Asteroide_img, Asteroide_img2, Asteroide_img3
         nonlocal C_vent_nivel2
         Asteroide = C_vent_nivel2.create_image(200,200, anchor=NW, image=Asteroide_img)
-        Asteroide2 = C_vent_nivel2.create_image(480,200, anchor=NW, image=Asteroide_img2)
+        Asteroide2 = C_vent_nivel2.create_image(400,200, anchor=NW, image=Asteroide_img2)
         Asteroide3 = C_vent_nivel2.create_image(50,100, anchor=NW, image=Asteroide_img3)
         Asteroide4 = C_vent_nivel2.create_image(50,620, anchor=NW, image=Asteroide_img2)
         After = 0
@@ -687,6 +704,7 @@ def nivel2():
         After4 = 0
         C_vent_nivel2.impact = load_mp3('stone.mp3')
         C_vent_nivel2.hit = load_mp3('hit.mp3')
+        
         def start():
             nonlocal C_vent_nivel2
             sleep(1)
@@ -709,8 +727,9 @@ def nivel2():
                 return recursive_move3(Ast_x, Ast_y)
             elif Ast == 4:
                 C_vent_nivel2.after_cancel(After4)
-                return recursive_move4(Ast_x, Ast_y)      
-        # ------------------------------------------------------------------------------------------------------
+                return recursive_move4(Ast_x, Ast_y)
+            
+        #------------------------------------------------------------------------------------------------------
         def recursive_move(X,Y):
             global vida
             nonlocal C_vent_nivel2, Asteroide, After, sprite, Vida       
@@ -739,7 +758,7 @@ def nivel2():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(2)
-                    cerrar_nivel2()
+                    cerrar_nivel2_v2()
                     
         def recursive_move2(X,Y):
             global vida
@@ -750,12 +769,16 @@ def nivel2():
             Asteroide_bx = C_vent_nivel2.bbox(Asteroide2)
             Nave_bx = C_vent_nivel2.bbox(sprite)
             if Coords[0] < 2:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(2)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords1(2)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords2(2)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel2.impact)
                 return random_coords3(2)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel2.after_cancel(After2)
@@ -765,7 +788,7 @@ def nivel2():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(2)
-                    cerrar_nivel2()
+                    cerrar_nivel2_v2()
                                     
         def recursive_move3(X,Y):
             global vida
@@ -795,8 +818,8 @@ def nivel2():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(2)
-                    cerrar_nivel2()
-                    
+                    cerrar_nivel2_v2()
+
         def recursive_move4(X,Y):
             global vida
             nonlocal C_vent_nivel2, Asteroide4, After4, sprite, Vida 
@@ -825,9 +848,9 @@ def nivel2():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(2)
-                    cerrar_nivel2()
+                    cerrar_nivel2_v2()
 
-        # ------------------------------------------------------------------------------------------------------
+        #------------------------------------------------------------------------------------------------------
         def random_coords2(Ast):
             nonlocal After, C_vent_nivel2, After2, After3, After4
             Ast_x = random.randint(-6,-4)
@@ -866,10 +889,11 @@ def nivel2():
 
     asteroides()
 
-    # ------------------------------------------------------------------------------------------------------
+    #------------------------------------------------------------------------------------------------------
     def cerrar_nivel2():
-        global FLAG
+        global FLAG, vida
         FLAG = False
+        vida = 3
         ventana.deiconify()
         vent_nivel2.destroy()
         stop_song()
@@ -880,7 +904,16 @@ def nivel2():
     B_cerrar_nivel2 = Button(vent_nivel2, text='←', font=fuente, width=5, height=1, command=cerrar_nivel2)
     B_cerrar_nivel2.place(x=435, y=665)
 
-# ------------------------------------------------------------------------------------------------------
+    def cerrar_nivel2_v2():
+        global FLAG
+        FLAG = False
+        vent_nivel2.destroy()
+        stop_song()
+        play_songs(C_ventana.songPP)
+        
+    vent_nivel2.protocol('WM_DELETE_WINDOW', cerrar_nivel2_v2)
+
+#------------------------------------------------------------------------------------------------------
 def nivel3():
     """
     ***************************************************************************
@@ -899,10 +932,8 @@ def nivel3():
     Salidas: N/D
 
     ***************************************************************************"""
-    global vida, puntos, username, sgnds, pnts, FLAG, vent_sala
+    global vida, username, sgnds, pnts, FLAG, vent_sala
     FLAG = True
-    vida = 3
-    pnts = 0
     sgnds = 60
     contador = 0
 
@@ -935,7 +966,7 @@ def nivel3():
     F_tiempo = Frame.create_text(284, 15, text="Time: ", font=('OCR A Extended', 13), fill='white')
     F_jugadador = Frame.create_text(420, 15, text=e_jugador.get(), font=('OCR A Extended', 13), fill='white')
 
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     def temporizador():
         global sgnds, contador, pnts
         sgnds = sgnds - 1
@@ -946,7 +977,7 @@ def nivel3():
     
     temporizador()
 
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     sprite = C_vent_nivel3.create_image(250, 650, tags=('sprite'))
     def nave():
         """
@@ -969,7 +1000,6 @@ def nivel3():
         Autores auxiliares: Jose Fernando Morales
 
         ***************************************************************************"""
-
         def player_animation(X):
             global Imagenes, FLAG
             nonlocal sprite
@@ -1016,7 +1046,8 @@ def nivel3():
         vent_nivel3.bind('<Down>', abajo)
 
     nave()
-
+    
+    #-----------------------------------------------------------------------------------------------------
     def asteroides():
         """
         ***************************************************************************
@@ -1039,7 +1070,7 @@ def nivel3():
         global Asteroide_img, Asteroide_img2, Asteroide_img3
         nonlocal C_vent_nivel3
         Asteroide = C_vent_nivel3.create_image(200,200, anchor=NW, image=Asteroide_img)
-        Asteroide2 = C_vent_nivel3.create_image(480,200, anchor=NW, image=Asteroide_img2)
+        Asteroide2 = C_vent_nivel3.create_image(420,200, anchor=NW, image=Asteroide_img2)
         Asteroide3 = C_vent_nivel3.create_image(50,100, anchor=NW, image=Asteroide_img3)
         Asteroide4 = C_vent_nivel3.create_image(50,620, anchor=NW, image=Asteroide_img2)
         Asteroide5 = C_vent_nivel3.create_image(350,350, anchor=NW, image=Asteroide_img)
@@ -1050,6 +1081,7 @@ def nivel3():
         After5 = 0
         C_vent_nivel3.impact = load_mp3('stone.mp3')
         C_vent_nivel3.hit = load_mp3('hit.mp3')
+        
         def start():
             nonlocal C_vent_nivel3
             sleep(1)
@@ -1076,7 +1108,8 @@ def nivel3():
             elif Ast == 5:
                 C_vent_nivel3.after_cancel(After5)
                 return recursive_move5(Ast_x, Ast_y)
-        # ------------------------------------------------------------------------------------------------------
+            
+        #------------------------------------------------------------------------------------------------------
         def recursive_move(X,Y):
             global vida
             nonlocal C_vent_nivel3, Asteroide, After, sprite, Vida       
@@ -1105,7 +1138,7 @@ def nivel3():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(3)
-                    cerrar_nivel3()
+                    cerrar_nivel3_v2()
                                                  
         def recursive_move2(X,Y):
             global vida
@@ -1116,12 +1149,16 @@ def nivel3():
             Asteroide_bx = C_vent_nivel3.bbox(Asteroide2)
             Nave_bx = C_vent_nivel3.bbox(sprite)
             if Coords[0] < 2:
+                play_fx(C_vent_nivel3.impact)
                 return random_coords1(2)
             elif Coords[1] < 25:
+                play_fx(C_vent_nivel3.impact)
                 return random_coords1(2)
             elif  Coords[0] > 420:
+                play_fx(C_vent_nivel3.impact)
                 return random_coords2(2)
             elif Coords[1] > 665:
+                play_fx(C_vent_nivel3.impact)
                 return random_coords3(2)
             elif Nave_bx[2]+4 > Asteroide_bx[0]+10 > Nave_bx[0]+4 and Nave_bx[1]+30 < Asteroide_bx[3]+10 < Nave_bx[3]+30:
                 C_vent_nivel3.after_cancel(After2)
@@ -1131,7 +1168,7 @@ def nivel3():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(3)
-                    cerrar_nivel3()
+                    cerrar_nivel3_v2()
                                   
         def recursive_move3(X,Y):
             global vida
@@ -1161,7 +1198,7 @@ def nivel3():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(3)
-                    cerrar_nivel3()
+                    cerrar_nivel3_v2()
                                     
         def recursive_move4(X,Y):
             global vida
@@ -1191,8 +1228,8 @@ def nivel3():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(3)
-                    cerrar_nivel3()
-                    
+                    cerrar_nivel3_v2()
+
         def recursive_move5(X,Y):
             global vida
             nonlocal C_vent_nivel3, Asteroide5, After5, sprite, Vida 
@@ -1221,9 +1258,9 @@ def nivel3():
                 Vida.config(text= "Life: "+str(vida))
                 if vida == 0:
                     game_over(3)
-                    cerrar_nivel3()
-                                        
-        # ------------------------------------------------------------------------------------------------------
+                    cerrar_nivel3_v2()
+                                           
+        #------------------------------------------------------------------------------------------------------
         def random_coords2(Ast):
             nonlocal After, C_vent_nivel3, After2, After3, After4, After5
             Ast_x = random.randint(-6,-4)
@@ -1268,10 +1305,11 @@ def nivel3():
 
     asteroides()
 
-    # -----------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------
     def cerrar_nivel3():
-        global FLAG
+        global FLAG, vida
         FLAG = False
+        vida = 3
         ventana.deiconify()
         vent_nivel3.destroy()
         stop_song()
@@ -1282,6 +1320,14 @@ def nivel3():
     B_cerrar_nivel3 = Button(vent_nivel3, text='←', font=fuente, width=5, height=1, command=cerrar_nivel3)
     B_cerrar_nivel3.place(x=435, y=665)
 
+    def cerrar_nivel3_v2():
+        global FLAG
+        FLAG = False
+        vent_nivel3.destroy()
+        stop_song()
+        play_songs(C_ventana.songPP)
+        
+    vent_nivel3.protocol('WM_DELETE_WINDOW', cerrar_nivel3_v2)
 #------------------------------------------------------------------------------------------------------
 def game_over(nivel):
     vent_gameover = Toplevel()
@@ -1293,17 +1339,33 @@ def game_over(nivel):
     
     C_vent_gameover.fondo = load_image('Game_over.png')
     fondo_gameover = C_vent_gameover.create_image(0, 0, anchor=NW, image=C_vent_gameover.fondo)
-    
-    if nivel == 1:
-        B_gameover = Button(vent_gameover, text="Restar", font=fuente, width=10, height=1, command=nivel1)
-        B_gameover.place(x=100,y=180)
-    elif nivel == 2:
-        B_gameover = Button(vent_gameover, text="Restar", font=fuente, width=10, height=1, command=nivel2)
-        B_gameover.place(x=100,y=180)
-    elif nivel == 3:
-        B_gameover = Button(vent_gameover, text="Restar", font=fuente, width=10, height=1, command=nivel3)
-        B_gameover.place(x=100,y=180)
+
+    def restart1():
+        global vida
+        vida = 3
+        vent_gameover.destroy()
+        nivel1()
+    def restart2():
+        global vida
+        vida = 3
+        vent_gameover.destroy()
+        nivel2()
+    def restart3():
+        global vida
+        vida = 3
+        vent_gameover.destroy()
+        nivel3()
         
+    if nivel == 1:
+        B_gameover1 = Button(vent_gameover, text='Restart', font=fuente, width=10, height=1, command=restart1)
+        B_gameover1.place(x=100, y=150)
+    elif nivel == 2:
+        B_gameover2 = Button(vent_gameover, text='Restart', font=fuente, width=10, height=1, command=restart2)
+        B_gameover2.place(x=100, y=150)
+    elif nivel == 3:
+        B_gameover3 = Button(vent_gameover, text='Restart', font=fuente, width=10, height=1, command=restart3)
+        B_gameover3.place(x=100, y=150)
+
 #------------------------------------------------------------------------------------------------------
 def sala():
     """
