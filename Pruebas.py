@@ -38,6 +38,19 @@ def save():
 
 Button(v, text = 'Save', command = save).place(x=250, y=400)
 
+def save_higscore():
+    global e_jugador, pnts
+    Nombre_usuario = e_jugador.get()
+    Score_Usuario = Nombre_usuario + "---" + str(pnts) + ", "
+    Arch = open("Highscore.txt", "r+")
+    Nombres = Arch.readline()
+    def compare(Puntaje, coma, Names):
+        nonlocal Score_Usuario
+        if coma == 10:
+            print("no")
+        elif coma != 10:
+            Arch.write(Score_Usuario)
+            return compare(Puntaje, coma+1, Names[1:])
 
 
 """

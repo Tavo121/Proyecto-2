@@ -24,7 +24,6 @@ utilizan las teclas direccionales:
 
 #-----------------------------------------------------------------
 from tkinter import *
-import os
 from os import path
 from threading import Thread
 import vlc
@@ -79,9 +78,7 @@ def stop_song():
 
 #------------------------------------------------------------------------------------------------------
 fuente = ('OCR A Extended', 12)
-global vida
 vida = 3
-global pnts
 pnts = 0
 
 #------------------------------------------------------------------------------------------------------
@@ -160,9 +157,35 @@ def validar():
     global e_jugador
     username = e_jugador.get()
     if (username!=""):
-        return nivel1()
+        if len(username) <= 15:
+            return nivel1()
+        else:
+            return mensaje2()
     else:
-        mensaje()
+        return mensaje()
+
+def mensaje2():
+    Vent_msg = Toplevel()
+    Vent_msg.minsize(width=150, height=20)
+    Vent_msg.resizable(width=NO, height=NO)
+    Texto = Label(Vent_msg, text="El nombre debe tener menos de 15 caracteres", font=fuente, fg='white', bg='black')
+    Texto.pack()
+
+    Callback = 0
+
+    def tiempo(Seg):
+        nonlocal Callback, Vent_msg
+        if Seg <= 4:
+            Callback = Vent_msg.after(1000, tiempo, (Seg + 1))
+        else:
+            parar_tiempo()
+
+    def parar_tiempo():
+        nonlocal Callback, Vent_msg
+        Vent_msg.after_cancel(Callback)
+        Vent_msg.destroy()
+
+    tiempo(0)
 
 def mensaje():
     Vent_msg = Toplevel()
@@ -221,6 +244,8 @@ def nivel1():
     ***************************************************************************"""
     global vida, username, sgnds, pnts, FLAG
     FLAG = True
+    vida = 3
+    pnts = 0
     sgnds = 60
     contador = 0
 
@@ -518,7 +543,6 @@ def nivel1():
     def cerrar_nivel1():
         global FLAG, vida
         FLAG = False
-        vida = 3       
         ventana.deiconify()
         vent_nivel1.destroy()
         stop_song()
@@ -535,8 +559,6 @@ def nivel1():
         vent_nivel1.destroy()
         stop_song()
         play_songs(C_ventana.songPP)
-        
-    vent_nivel1.protocol('WM_DELETE_WINDOW', cerrar_nivel1_v2)
 
 #------------------------------------------------------------------------------------------------------
 def nivel2():
@@ -594,11 +616,13 @@ def nivel2():
     def temporizador():
         global sgnds, contador, pnts
         sgnds = sgnds - 1
-        pnts = pnts + 1
+        pnts = pnts + 3
         contador=vent_nivel2.after(1000, temporizador)
         Temp.config(text=(sgnds))
         Puntos.config(text="Score: "+str(pnts))
-    
+        if sgnds == 0:
+            cerrar_nivel2()
+            return nivel3()
     temporizador()
     
     #-----------------------------------------------------------------------------------------------------
@@ -628,15 +652,18 @@ def nivel2():
         def player_animation(X):
             global Imagenes, FLAG
             nonlocal sprite
-            if X == 3:
-                X = 0
-            if FLAG:
-                C_vent_nivel2.itemconfig('sprite', image=Imagenes[X])
+            try:
+                if X == 3:
+                    X = 0
+                if FLAG:
+                    C_vent_nivel2.itemconfig('sprite', image=Imagenes[X])
 
-                def callback():
-                    player_animation(X + 1)
+                    def callback():
+                        player_animation(X + 1)
 
-                ventana.after(100, callback)
+                    ventana.after(100, callback)
+            except:
+                'Cancel'
 
         Thread(target=player_animation, args=(0,)).start()
 
@@ -891,9 +918,8 @@ def nivel2():
 
     #------------------------------------------------------------------------------------------------------
     def cerrar_nivel2():
-        global FLAG, vida
+        global FLAG
         FLAG = False
-        vida = 3
         ventana.deiconify()
         vent_nivel2.destroy()
         stop_song()
@@ -910,8 +936,6 @@ def nivel2():
         vent_nivel2.destroy()
         stop_song()
         play_songs(C_ventana.songPP)
-        
-    vent_nivel2.protocol('WM_DELETE_WINDOW', cerrar_nivel2_v2)
 
 #------------------------------------------------------------------------------------------------------
 def nivel3():
@@ -968,13 +992,16 @@ def nivel3():
 
     #-----------------------------------------------------------------------------------------------------
     def temporizador():
-        global sgnds, contador, pnts
+        global sgnds, contador, pnts, username
         sgnds = sgnds - 1
-        pnts = pnts + 1
+        pnts = pnts + 5
         contador=vent_nivel3.after(1000, temporizador)
         Temp.config(text=(sgnds))
         Puntos.config(text="Score: "+str(pnts))
-    
+        if sgnds == 0:
+            cerrar_nivel3()
+            print(username.get())
+            return puntaje
     temporizador()
 
     #-----------------------------------------------------------------------------------------------------
@@ -1003,15 +1030,18 @@ def nivel3():
         def player_animation(X):
             global Imagenes, FLAG
             nonlocal sprite
-            if X == 3:
-                X = 0
-            if FLAG:
-                C_vent_nivel3.itemconfig('sprite', image=Imagenes[X])
+            try:
+                if X == 3:
+                    X = 0
+                if FLAG:
+                    C_vent_nivel3.itemconfig('sprite', image=Imagenes[X])
 
-                def callback():
-                    player_animation(X + 1)
+                    def callback():
+                        player_animation(X + 1)
 
-                ventana.after(100, callback)
+                    ventana.after(100, callback)
+            except:
+                'Cancel'
 
         Thread(target=player_animation, args=(0,)).start()
 
@@ -1070,7 +1100,7 @@ def nivel3():
         global Asteroide_img, Asteroide_img2, Asteroide_img3
         nonlocal C_vent_nivel3
         Asteroide = C_vent_nivel3.create_image(200,200, anchor=NW, image=Asteroide_img)
-        Asteroide2 = C_vent_nivel3.create_image(420,200, anchor=NW, image=Asteroide_img2)
+        Asteroide2 = C_vent_nivel3.create_image(400,200, anchor=NW, image=Asteroide_img2)
         Asteroide3 = C_vent_nivel3.create_image(50,100, anchor=NW, image=Asteroide_img3)
         Asteroide4 = C_vent_nivel3.create_image(50,620, anchor=NW, image=Asteroide_img2)
         Asteroide5 = C_vent_nivel3.create_image(350,350, anchor=NW, image=Asteroide_img)
@@ -1085,14 +1115,14 @@ def nivel3():
         def start():
             nonlocal C_vent_nivel3
             sleep(1)
-            Ast_x = random.randint(4,6)
-            Ast_y = random.randint(4,6)
+            Ast_x = random.randint(5,7)
+            Ast_y = random.randint(5,7)
             return recursive_move(Ast_x, Ast_y), recursive_move2(Ast_x, Ast_y), recursive_move3(Ast_x, Ast_y), recursive_move4(Ast_x, Ast_y), recursive_move5(Ast_x, Ast_y)
 
         def random_coords1(Ast):
             nonlocal C_vent_nivel3, After, After2, After3, After4, After5
-            Ast_x = random.randint(4,6)
-            Ast_y = random.randint(4,6)
+            Ast_x = random.randint(5,7)
+            Ast_y = random.randint(5,7)
             if Ast == 1:
                 C_vent_nivel3.after_cancel(After)
                 return recursive_move(Ast_x, Ast_y)
@@ -1263,8 +1293,8 @@ def nivel3():
         #------------------------------------------------------------------------------------------------------
         def random_coords2(Ast):
             nonlocal After, C_vent_nivel3, After2, After3, After4, After5
-            Ast_x = random.randint(-6,-4)
-            Ast_y = random.randint(-6,6)            
+            Ast_x = random.randint(-7,-5)
+            Ast_y = random.randint(-7,6)
             if Ast == 1:
                 C_vent_nivel3.after_cancel(After)
                 return recursive_move(Ast_x, Ast_y)
@@ -1283,8 +1313,8 @@ def nivel3():
             
         def random_coords3(Ast):
             nonlocal After, C_vent_nivel3, After2, After3, After4, After5
-            Ast_x = random.randint(-6,6)
-            Ast_y = random.randint(-6,-4)
+            Ast_x = random.randint(-7,7)
+            Ast_y = random.randint(-7,-5)
             if Ast == 1:
                 C_vent_nivel3.after_cancel(After)
                 return recursive_move(Ast_x, Ast_y)
@@ -1307,14 +1337,13 @@ def nivel3():
 
     #-----------------------------------------------------------------------------------------------------
     def cerrar_nivel3():
-        global FLAG, vida
+        global FLAG
         FLAG = False
-        vida = 3
         ventana.deiconify()
         vent_nivel3.destroy()
         stop_song()
         play_songs(C_ventana.songPP)
-    
+
     vent_nivel3.protocol('WM_DELETE_WINDOW', cerrar_nivel3)
 
     B_cerrar_nivel3 = Button(vent_nivel3, text='←', font=fuente, width=5, height=1, command=cerrar_nivel3)
@@ -1327,32 +1356,31 @@ def nivel3():
         stop_song()
         play_songs(C_ventana.songPP)
         
-    vent_nivel3.protocol('WM_DELETE_WINDOW', cerrar_nivel3_v2)
 #------------------------------------------------------------------------------------------------------
 def game_over(nivel):
+    global pnts, vida, e_jugador
     vent_gameover = Toplevel()
     vent_gameover.title("Fin del Juego")
     vent_gameover.minsize(300, 300)
     vent_gameover.resizable(width=NO, height=NO)
     C_vent_gameover = Canvas(vent_gameover, width=300, height=300, bg='black')
     C_vent_gameover.pack()
-    
+
+    save_higscore()
+
     C_vent_gameover.fondo = load_image('Game_over.png')
     fondo_gameover = C_vent_gameover.create_image(0, 0, anchor=NW, image=C_vent_gameover.fondo)
 
+    pnts = 0
+    vida = 3
+
     def restart1():
-        global vida
-        vida = 3
         vent_gameover.destroy()
         nivel1()
     def restart2():
-        global vida
-        vida = 3
         vent_gameover.destroy()
         nivel2()
     def restart3():
-        global vida
-        vida = 3
         vent_gameover.destroy()
         nivel3()
         
@@ -1365,6 +1393,14 @@ def game_over(nivel):
     elif nivel == 3:
         B_gameover3 = Button(vent_gameover, text='Restart', font=fuente, width=10, height=1, command=restart3)
         B_gameover3.place(x=100, y=150)
+
+    def close_gm():
+        global ventana
+        nonlocal vent_gameover
+        ventana.deiconify()
+        vent_gameover.destroy()
+
+    vent_gameover.protocol('WM_DELETE_WINDOW', close_gm)
 
 #------------------------------------------------------------------------------------------------------
 def sala():
@@ -1407,7 +1443,10 @@ def sala():
     B_nivel1.place(x=200, y=150)
 
     def selec_niv2():
+        global vida, pnts
         nonlocal vent_sala
+        vida = 3
+        pnts = 0
         vent_sala.destroy()
         nivel2()
 
@@ -1415,7 +1454,10 @@ def sala():
     B_nivel2.place(x=200, y=350)
 
     def selec_niv3():
+        global vida, pnts
         nonlocal vent_sala
+        vida = 3
+        pnts = 0
         vent_sala.destroy()
         nivel3()
 
@@ -1518,6 +1560,35 @@ def creditos():
 
 B_creditos = Button(ventana, text='Credits', font=fuente, width=8, height=1, command=creditos)
 B_creditos.place(x=5,y=665)
+
+#------------------------------------------------------------------------------------------------------
+def save_higscore():
+    global e_jugador, pnts
+    Nombre_usuario = e_jugador.get()
+    Score_Usuario = Nombre_usuario + "---" + str(pnts) + ", "
+    Arch = open("Highscore.txt", "r+")
+    Nombres = Arch.readline()
+
+    def compare_pts(Puntos, Puntajes):
+        if Puntajes[0] == ",":
+
+
+
+    def compare(Puntaje, coma, Names): #verifica que haya menos de 10 nombres registrados
+        nonlocal Score_Usuario
+        if coma == 10:
+            return compare_pts()
+        elif Names[0] == ",":
+            return compare(Puntaje, coma+1, Names[1:])
+        elif Names == "":
+            Arch.write(Score_Usuario)
+        else:
+            return compare(Puntaje, coma, Names[1:])
+    compare(Score_Usuario, 0, Nombres)
+    Arch.close()
+
+
+#------------------------------------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------------------------------
 ventana.mainloop()
