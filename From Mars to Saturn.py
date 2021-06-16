@@ -134,7 +134,7 @@ def load_images(Lista_inical, ListaResultado):
 Imagenes = load_sprite('tile*.png')
 
 #------------------------------------------------------------------------------------------------------
-def validar():
+def validar(Play_Selec):
     """
     ***************************************************************************
                 Instituto Tecnológio de Costa Rica
@@ -158,7 +158,10 @@ def validar():
     username = e_jugador.get()
     if (username!=""):
         if len(username) <= 15:
-            return nivel1()
+            if Play_Selec == 0:
+                return nivel1()
+            elif Play_Selec == 1:
+                return sala()
         else:
             return mensaje2()
     else:
@@ -209,7 +212,7 @@ def mensaje():
 
     tiempo(0)
 
-B_validar = Button(ventana, text="Play", font=fuente, width=10, height=1, command=validar)
+B_validar = Button(ventana, text="Play", font=fuente, width=10, height=1, command=lambda:validar(0))
 B_validar.place(x=200,y=325)
 
 def cerrar_menu():
@@ -1366,7 +1369,7 @@ def game_over(nivel):
     C_vent_gameover = Canvas(vent_gameover, width=300, height=300, bg='black')
     C_vent_gameover.pack()
 
-    save_higscore()
+    save_highscore()
 
     C_vent_gameover.fondo = load_image('Game_over.png')
     fondo_gameover = C_vent_gameover.create_image(0, 0, anchor=NW, image=C_vent_gameover.fondo)
@@ -1472,7 +1475,7 @@ def sala():
     B_cerrar_cerrar = Button(vent_sala, text='←', font=fuente, width=5 ,height=1, command=cerrar_sala)
     B_cerrar_cerrar.place(x=435,y=665)
 
-B_sala = Button(ventana, text='Level Room', font=fuente, width=10, height=1, command=sala)
+B_sala = Button(ventana, text='Level Room', font=fuente, width=10, height=1, command=lambda:validar(1))
 B_sala.place(x=200,y=400)
 
 #------------------------------------------------------------------------------------------------------
@@ -1562,31 +1565,56 @@ B_creditos = Button(ventana, text='Credits', font=fuente, width=8, height=1, com
 B_creditos.place(x=5,y=665)
 
 #------------------------------------------------------------------------------------------------------
-def save_higscore():
+def save_highscore():
     global e_jugador, pnts
     Nombre_usuario = e_jugador.get()
-    Score_Usuario = Nombre_usuario + "---" + str(pnts) + ", "
+    Score_Usuario = Nombre_usuario + "---" + str(pnts) + ","
     Arch = open("Highscore.txt", "r+")
     Nombres = Arch.readline()
 
-    def compare_pts(Puntos, Puntajes):
-        if Puntajes[0] == ",":
-
-
-
-    def compare(Puntaje, coma, Names): #verifica que haya menos de 10 nombres registrados
-        nonlocal Score_Usuario
-        if coma == 10:
-            return compare_pts()
-        elif Names[0] == ",":
-            return compare(Puntaje, coma+1, Names[1:])
-        elif Names == "":
-            Arch.write(Score_Usuario)
+    def rewrite(Names):
+        if Names == []:
+            print('saved succesfully')
         else:
-            return compare(Puntaje, coma, Names[1:])
-    compare(Score_Usuario, 0, Nombres)
-    Arch.close()
+            Arch.write(Names[0])
+            return rewrite(Names[1:])
 
+    def compare_ptn(Puntos, Names, vueltas, i,j):
+        nonlocal Score_Usuario
+        if vueltas == 10:
+            print('Lower puntaje')
+        elif Names[i][j] == "1" or Names[i][j] == '2' or Names[i][j] == '3' or Names[i][j] == "4" or Names[i][j] == '5':
+            Comparacion = Names[i][j:-2]
+            if Comparacion <= str(Puntos):
+                Names[i] = Score_Usuario + '\n'
+                Arch.seek(0)
+                return rewrite(Names)
+            else:
+                return compare_ptn(Puntos, Names, vueltas +1, i+1, 0)
+        else:
+            return compare_ptn(Puntos, Names, vueltas, i, j+1)
+
+    def compare(Puntaje, Registros, Names, Names2):
+        global pnts
+        if Registros == 10:
+            compare_ptn(pnts, Names, 0, 0, 0)
+        elif Names == []:
+            Names2.append(Puntaje + "\n")
+            Arch.seek(0)
+            return rewrite(Names2)
+        else:
+            return compare(Puntaje, Registros +1, Names[1:], Names2)
+
+    def create_list(Names, Result):
+        nonlocal Score_Usuario
+        if Names == "":
+            return compare(Score_Usuario, 0, Result, Result)
+        else:
+            Result.append(Names)
+            Names = Arch.readline()
+            return create_list(Names, Result)
+    create_list(Nombres, [])
+    Arch.close()
 
 #------------------------------------------------------------------------------------------------------
 
