@@ -1583,7 +1583,7 @@ def save_highscore():
         nonlocal Score_Usuario
         if vueltas == 10:
             print('Lower puntaje')
-        elif Names[i][j] == "1" or Names[i][j] == '2' or Names[i][j] == '3' or Names[i][j] == "4" or Names[i][j] == '5':
+        elif Names[i][j] == "1" or Names[i][j] == '2' or Names[i][j] == '3' or Names[i][j] == "4" or Names[i][j] == '5' or Names[i][j] == '6' or Names[i][j] == '7' or Names[i][j] == '8' or Names[i][j] == '9':
             Comparacion = Names[i][j:-2]
             if Comparacion <= str(Puntos):
                 Names[i] = Score_Usuario + '\n'
@@ -1617,6 +1617,78 @@ def save_highscore():
     Arch.close()
 
 #------------------------------------------------------------------------------------------------------
+def num_finder(Nombre, i, Result): #toma los numeros de el string ingresado
+    if Nombre[i] == "1" or Nombre[i] == '2' or Nombre[i] == '3' or Nombre[i] == "4" or Nombre[i] == '5' or Nombre[i] == '6' or Nombre[i] == '7' or Nombre[i] == '8' or Nombre[i] == '9':
+        Result = Nombre[i:-2]
+        return Result
+    else:
+        return num_finder(Nombre, i+1, Result)
+
+def quickS_list_maker():
+    Arch = open('Highscore.txt', 'r')
+    def create_list(Names, Result):
+        if Names == "":
+            return Result
+        else:
+            Result.append(Names)
+            Names = Arch.readline()
+            return create_list(Names, Result)
+
+    Lista_nombres = create_list(Arch.readline(), [])
+    Arch.close()
+    return quicksort_pnts(Lista_nombres)
+
+def rewrite(Names):
+    Arch = open('Highscore.txt', 'w')
+    while Names != []:
+        Arch.write(Names[0])
+        Names = Names[1:]
+    Arch.close()
+
+def quicksort_pnts(Lista):
+    Menores = []
+    Iguales = []
+    Mayores = []
+    if len(Lista) <= 1:
+        return Lista
+
+
+    Pivote = num_finder(Lista[-1], 0, '')
+    dividir_lista(Lista, 0, len(Lista), Pivote, Menores, Iguales, Mayores)
+    Result = quicksort_pnts(Menores)
+    Result.extend(Iguales)
+    Result.extend(quicksort_pnts(Mayores))
+    return Result
+
+def dividir_lista(Nombres, i, Cant_list, Pivote, Menores, Iguales, Mayores):
+    if i == Cant_list:
+        return Menores, Iguales, Mayores
+    if int(num_finder(Nombres[i], 0, '')) < int(Pivote):
+        Menores.append(Nombres[i])
+    elif int(num_finder(Nombres[i], 0, '')) > int(Pivote):
+        Mayores.append(Nombres[i])
+    elif int(num_finder(Nombres[i], 0, '')) == int(Pivote):
+        Iguales.append(Nombres[i])
+    return dividir_lista(Nombres,i+1,Cant_list,Pivote,Menores,Iguales,Mayores)
+
+#------------------------------------------------------------------------------------------------------
+def insertion_sort_names(Lista):
+    return IS_names_aux(Lista, 1, len(Lista))
+
+def IS_names_aux(Nombres, i, Cant):
+    if i == Cant:
+        return Nombres
+    Aux = Nombres[i]
+    j = lista_ordenada(Nombres, i, Aux)
+    Nombres[j] = Aux
+    return IS_names_aux(Nombres, i + 1, Cant)
+
+
+def lista_ordenada(Lista, i, Aux):
+    if i <= 0 or Lista[i - 1][0] <= Aux[0][0]:
+        return i
+    Lista[i] = Lista[i - 1]
+    return lista_ordenada(Lista, i - 1, Aux)
 
 #------------------------------------------------------------------------------------------------------
 ventana.mainloop()

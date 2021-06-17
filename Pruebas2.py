@@ -52,4 +52,61 @@ def save_highscore2():
     create_list(Nombres, [])
     Arch.close()
 
-save_highscore2()
+#save_highscore2()
+#=====================================================================
+
+def num_finder(Nombre, i, Result):
+    if Nombre[i] == "1" or Nombre[i] == '2' or Nombre[i] == '3' or Nombre[i] == "4" or Nombre[i] == '5' or Nombre[i] == '6' or Nombre[i] == '7' or Nombre[i] == '8' or Nombre[i] == '9':
+        Result = Nombre[i:-2]
+        return Result
+    else:
+        return num_finder(Nombre, i+1, Result)
+
+def quickS_list_maker():
+    Arch = open('a.txt', 'r')
+    def create_list(Names, Result):
+        if Names == "":
+            return Result
+        else:
+            Result.append(Names)
+            Names = Arch.readline()
+            return create_list(Names, Result)
+
+    Lista_nombres = create_list(Arch.readline(), [])
+    Arch.close()
+    return quicksort_pnts(Lista_nombres)
+
+def rewrite(Names):
+    Arch = open('a.txt', 'w')
+    while Names != []:
+        Arch.write(Names[0])
+        Names = Names[1:]
+    Arch.close()
+
+def quicksort_pnts(Lista):
+    Menores = []
+    Iguales = []
+    Mayores = []
+    if len(Lista) <= 1:
+        return rewrite(Lista)
+
+
+    Pivote = num_finder(Lista[-1], 0, '')
+    dividir_lista(Lista, 0, len(Lista), Pivote, Menores, Iguales, Mayores)
+    Result = quicksort_pnts(Menores)
+    Result.extend(Iguales)
+    Result.extend(quicksort_pnts(Mayores))
+    return rewrite(Result)
+
+def dividir_lista(Nombres, i, Cant_list, Pivote, Menores, Iguales, Mayores):
+    if i == Cant_list:
+        return Menores, Iguales, Mayores
+    if num_finder(Nombres[i], 0, '') < Pivote:
+        Menores.append(Nombres[i])
+    elif num_finder(Nombres[i], 0, '') > Pivote:
+        Mayores.append(Nombres[i])
+    elif num_finder(Nombres[i], 0, '') == Pivote:
+        Iguales.append(Nombres[i])
+    return dividir_lista(Nombres,i+1,Cant_list,Pivote,Menores,Iguales,Mayores)
+
+quickS_list_maker()
