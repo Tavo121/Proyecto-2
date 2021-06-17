@@ -99,6 +99,7 @@ e_jugador.place(x=162,y=280)
 
 C_ventana.songPP = load_mp3('PPSong.mp3')
 songPP = play_songs(C_ventana.songPP)
+
 #------------------------------------------------------------------------------------------------------
 def load_sprite(Nombre):
     """
@@ -239,7 +240,7 @@ def nivel1():
              Gustavo Alvarado A.
 
     Vesión: 2.0
-    Fecha Última Edición: junio 12/2021
+    Fecha Última Edición: junio 14/2021
     Entradas: N/D
     Restricciones: N/D
     Salidas: N/D
@@ -308,7 +309,7 @@ def nivel1():
                  Byron Mata F.
 
         Vesión: 1.1
-        Fecha Última Edición: junio 6/2021
+        Fecha Última Edición: junio 12/2021
         Entradas: N/D
         Restricciones: N/D
         Salidas: N/D
@@ -380,7 +381,7 @@ def nivel1():
                  Byron Mata F.
 
         Vesión: 3.0
-        Fecha Última Edición: junio 12/2021
+        Fecha Última Edición: junio 14/2021
         Entradas: N/D
         Restricciones: N/D
         Salidas: N/D
@@ -576,7 +577,7 @@ def nivel2():
              Gustavo Alvarado A.
 
     Vesión: 2.0
-    Fecha Última Edición: junio 12/2021
+    Fecha Última Edición: junio 14/2021
     Entradas: N/D
     Restricciones: N/D
     Salidas: N/D
@@ -643,7 +644,7 @@ def nivel2():
                  Byron Mata F.
 
         Vesión: 1.1
-        Fecha Última Edición: junio 6/2021
+        Fecha Última Edición: junio 14/2021
         Entradas: N/D
         Restricciones: N/D
         Salidas: N/D
@@ -716,7 +717,7 @@ def nivel2():
                  Byron Mata F.
 
         Vesión: 3.0
-        Fecha Última Edición: junio 12/2021
+        Fecha Última Edición: junio 14/2021
         Entradas: N/D
         Restricciones: N/D
         Salidas: N/D
@@ -953,7 +954,7 @@ def nivel3():
              Gustavo Alvarado A.
 
     Vesión: 2.0
-    Fecha Última Edición: junio 12/2021
+    Fecha Última Edición: junio 14/2021
     Entradas: N/D
     Restricciones: N/D
     Salidas: N/D
@@ -1001,10 +1002,10 @@ def nivel3():
         contador=vent_nivel3.after(1000, temporizador)
         Temp.config(text=(sgnds))
         Puntos.config(text="Score: "+str(pnts))
-        if sgnds == 0:
-            cerrar_nivel3()
-            print(username.get())
-            return puntaje
+        if sgnds == 50:
+            cerrar_nivel3_v2()
+            #print(username.get())
+            win()
     temporizador()
 
     #-----------------------------------------------------------------------------------------------------
@@ -1022,7 +1023,7 @@ def nivel3():
                  Byron Mata F.
 
         Vesión: 1.1
-        Fecha Última Edición: junio 6/2021
+        Fecha Última Edición: junio 14/2021
         Entradas: N/D
         Restricciones: N/D
         Salidas: N/D
@@ -1094,7 +1095,7 @@ def nivel3():
                  Byron Mata F.
 
         Vesión: 3.0
-        Fecha Última Edición: junio 12/2021
+        Fecha Última Edición: junio 14/2021
         Entradas: N/D
         Restricciones: N/D
         Salidas: N/D
@@ -1358,7 +1359,41 @@ def nivel3():
         vent_nivel3.destroy()
         stop_song()
         play_songs(C_ventana.songPP)
+
+#------------------------------------------------------------------------------------------------------
+def win():
+    vent_win = Toplevel()
+    vent_win.title("Fin del Juego")
+    vent_win.minsize(500, 400)
+    vent_win.resizable(width=NO, height=NO)
+    C_vent_win = Canvas(vent_win, width=500, height=400, highlightthickness=0, bg='black')
+    C_vent_win.pack()
+
+    C_vent_win.fondo = load_image('Win.png')
+    fondo_win = C_vent_win.create_image(0, 0, anchor=NW, image=C_vent_win.fondo)
+
+    Frame = Canvas(vent_win, width=500, height=200, highlightthickness=0, bg='#10304a')
+    Frame.place(x=0,y=90)
+
+    def selec_puntaje():
+        nonlocal vent_win
+        puntaje()
+        vent_win.destroy()
         
+    B_win1 = Button(vent_win, text='Scores', font=fuente, width=10, height=1, command=selec_puntaje)
+    B_win1.place(x=4, y=367)
+
+    def close_win():
+        global ventana
+        nonlocal vent_win
+        ventana.deiconify()
+        vent_win.destroy()
+
+    vent_win.protocol('WM_DELETE_WINDOW', close_win)
+
+    B_win2 = Button(vent_win, text='Exit', font=fuente, width=10, height=1, command=close_win)
+    B_win2.place(x=387, y=367)
+
 #------------------------------------------------------------------------------------------------------
 def game_over(nivel):
     global pnts, vida, e_jugador
@@ -1418,7 +1453,7 @@ def sala():
              Gustavo Alvarado A.
 
     Vesión: 1.2
-    Fecha Última Edición: junio 11/2021
+    Fecha Última Edición: junio 14/2021
     Entradas: N/D
     Restricciones: N/D
     Salidas: N/D
@@ -1509,6 +1544,13 @@ def puntaje():
     C_vent_puntajes.fondo = load_image('Creditos.png')
     fondo_puntaje = C_vent_puntajes.create_image(0,0, anchor=NW, image = C_vent_puntajes.fondo)
 
+    Frame = Canvas(vent_puntajes, width=500, height=45, highlightthickness=0, bg='#10304a')
+    Frame.place(x=0,y=10)
+    Frame.create_text(247,23,text="Score List", font=('OCR A Extended', 16), fill='white')
+    
+    Frame2 = Canvas(vent_puntajes, width=500, height=40, highlightthickness=0, bg='#10304a')
+    Frame2.place(x=0,y=660)
+
     def cerrar_puntajes():
         ventana.deiconify()
         vent_puntajes.destroy()
@@ -1516,6 +1558,12 @@ def puntaje():
 
     B_cerrar_puntajes = Button(vent_puntajes, text='←', font=fuente, width=5 ,height=1, command=cerrar_puntajes)
     B_cerrar_puntajes.place(x=435,y=665)
+
+    BQS= Button(vent_puntajes, text='By points', font=('OCR A Extended', 10), width=9 ,height=1, command=cerrar_puntajes)
+    BQS.place(x=5,y=20)
+
+    BIS= Button(vent_puntajes, text='By name', font=('OCR A Extended', 10), width=9 ,height=1, command=cerrar_puntajes)
+    BIS.place(x=412,y=20)
 
 B_sala = Button(ventana, text='Scores', font=fuente, width=10, height=1, command=puntaje)
 B_sala.place(x=200,y=480)
@@ -1652,7 +1700,6 @@ def quicksort_pnts(Lista):
     if len(Lista) <= 1:
         return Lista
 
-
     Pivote = num_finder(Lista[-1], 0, '')
     dividir_lista(Lista, 0, len(Lista), Pivote, Menores, Iguales, Mayores)
     Result = quicksort_pnts(Menores)
@@ -1683,7 +1730,6 @@ def IS_names_aux(Nombres, i, Cant):
     Nombres[j] = Aux
     return IS_names_aux(Nombres, i + 1, Cant)
 
-
 def lista_ordenada(Lista, i, Aux):
     if i <= 0 or Lista[i - 1][0] <= Aux[0][0]:
         return i
@@ -1699,10 +1745,10 @@ def doc():
     print(load_sprite.__doc__)
     print(validar.__doc__)
     print(nivel1.__doc__)
-    #print(nave.__doc__)
-    #print(asteroides.__doc__)
     print(nivel2.__doc__)
     print(nivel3.__doc__)
     print(sala.__doc__)
     print(puntaje.__doc__)
     print(creditos.__doc__)
+    #print(nave.__doc__)
+    #print(asteroides.__doc__)
