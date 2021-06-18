@@ -1540,6 +1540,7 @@ B_sala.place(x=200,y=400)
 
 #------------------------------------------------------------------------------------------------------
 G_A = load_image('Gustavo.png')
+B_M = load_image('Byron.png')
 def creditos():
     """
     ***************************************************************************
@@ -1574,6 +1575,8 @@ def creditos():
 
     G = C_vent_creditos.create_image(100, 500, image = G_A)
     G_nombre = C_vent_creditos.create_text(100, 580, text = 'Gustavo Alvarado', font = fuente, fill = '#00eaff')
+    B = C_vent_creditos.create_image(350, 500, image = B_M)
+    B_nombre = C_vent_creditos.create_text(350, 580, text = 'Byron Mata', font = fuente, fill = '#00eaff')
     
     def cerrar_creditos():
         ventana.deiconify()
