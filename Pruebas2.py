@@ -109,4 +109,96 @@ def dividir_lista(Nombres, i, Cant_list, Pivote, Menores, Iguales, Mayores):
         Iguales.append(Nombres[i])
     return dividir_lista(Nombres,i+1,Cant_list,Pivote,Menores,Iguales,Mayores)
 
+#quickS_list_maker()
+
+def position():
+    global e_jugador, pnts
+    Arch = open('Highscore.txt', 'r')
+    Nombre = 'Gustavo' + '---' + '65' + ',' + '\n'
+    Pos = 1
+    Comp = Arch.readline()
+    while Comp != "":
+        print(Comp)
+        if Comp == Nombre:
+            Arch.close()
+            print('Su posicion es: ' + str(Pos))
+            return 0
+        Comp = Arch.readline()
+        Pos += 1
+    print('No sea manco')
+    Arch.close()
+
+
+
+def num_finder(Nombre, i, Result): #toma los numeros del string ingresado
+    if Nombre[i] == "1" or Nombre[i] == '2' or Nombre[i] == '3' or Nombre[i] == "4" or Nombre[i] == '5' or Nombre[i] == '6' or Nombre[i] == '7' or Nombre[i] == '8' or Nombre[i] == '9':
+        Result = Nombre[i:-2]
+        return Result
+    else:
+        return num_finder(Nombre, i+1, Result)
+
+def quickS_list_maker(): #crea una lista con los nombres y sus puntajes y luego llama a la funcion quicksort_names con la lista creada
+    Arch = open('Highscore.txt', 'r')
+    def create_list(Names, Result): #crea la lista con nombres y sus puntajes
+        if Names == "": #condicion de finalizacion
+            return Result
+        else:
+            Result.append(Names)
+            Names = Arch.readline()
+            return create_list(Names, Result)
+
+    Lista_nombres = create_list(Arch.readline(), [])
+    Arch.close()
+    print(Lista_nombres)
+    #return quicksort_pnts(Lista_nombres)
+
+def rewrite(Names): #reescribe los puntajes en el archivo txt
+    Arch = open('Highscore.txt', 'w')
+    while Names != []:
+        Arch.write(Names[0])
+        Names = Names[1:]
+    Arch.close()
+
+def quicksort_pnts(Lista):
+    """
+    ***************************************************************************
+                Instituto Tecnológio de Costa Rica
+                    Ingeniería en Computadores
+
+    Función: quicksort_pnts
+    Lenguaje: Python 3.9.5
+    Autores: Byron Mata F.
+             Gustavo Alvarado A.
+
+    Vesión: 1.0
+    Fecha Última Edición: junio 6/2021
+    Entradas: Lista de puntajes
+    Restricciones: Nombres deben ser tipo string y seguir el formato de guardado de puntajes
+    Salidas: Puntajes ordenados por puntos de manera descendiente
+
+    ***************************************************************************"""
+    Menores = []
+    Iguales = []
+    Mayores = []
+    if len(Lista) <= 1:
+        return Lista
+
+    Pivote = num_finder(Lista[-1], 0, '') #variable para realizar las comparaciones
+    dividir_lista(Lista, 0, len(Lista), Pivote, Menores, Iguales, Mayores)
+    Result = quicksort_pnts(Menores)
+    Result.extend(Iguales) #agrega los puntajes menores al pivote
+    Result.extend(quicksort_pnts(Mayores)) #agrega los puntajes mayores al pivote
+    return Result
+
+def dividir_lista(Nombres, i, Cant_list, Pivote, Menores, Iguales, Mayores): #divide en diferentes listas y clasifica los puntajes
+    if i == Cant_list:
+        return Menores, Iguales, Mayores
+    if int(num_finder(Nombres[i], 0, '')) < int(Pivote):
+        Menores.append(Nombres[i]) #lista de menores al pivote
+    elif int(num_finder(Nombres[i], 0, '')) > int(Pivote):
+        Mayores.append(Nombres[i])#lista de mayores al pivote
+    elif int(num_finder(Nombres[i], 0, '')) == int(Pivote):
+        Iguales.append(Nombres[i]) #lista de iguales al pivote
+    return dividir_lista(Nombres,i+1,Cant_list,Pivote,Menores,Iguales,Mayores)
+
 quickS_list_maker()
