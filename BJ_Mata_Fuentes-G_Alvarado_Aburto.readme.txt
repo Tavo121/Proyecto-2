@@ -1,0 +1,14 @@
+Versión de Python >= 3.9.2
+
+Se creó un módulo el cual genera las autodocumentaciones de los módulos principales del programa.
+
+Nombre de la función: mi_auto_doc()
+
+
+Instrucciones para la ejecución del módulo:
+-Se debe correr el programa y posteriormente cerrar la ventana principal del juego.
+-Una vez hecho esto, se debe llamar a la función mi_auto_doc() en el Shell de Python.
+
+Opción alternativa:
+-Se debe agregar una línea de código al final fuera de la función mi_auto_doc(), esta línea debe contener lo siguiente, print(mi_auto_doc()).
+-Una vez hecho esto se debe correr el programa y cerrar la ventana principal del juego para generar la autodumentación de manera automática en el Shell de Python.

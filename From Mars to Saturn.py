@@ -235,6 +235,7 @@ def nivel1():
                     Ingeniería en Computadores
                     
     Función: nivel1
+    Sub-módulos: nave, asteroide
     Lenguaje: Python 3.9.5
     Autores: Byron Mata F.
              Gustavo Alvarado A.
@@ -301,7 +302,7 @@ def nivel1():
         ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
-                            
+
         Función: nave
         Función interna: player_animation
         Lenguaje: Python 3.9.5
@@ -317,7 +318,7 @@ def nivel1():
         Autores auxiliares: Jose Fernando Morales
 
         ***************************************************************************"""
-        nonlocal vent_nivel1, sprite       
+        nonlocal vent_nivel1, sprite
 
         # Animación del jugador
         def player_animation(X):
@@ -373,7 +374,7 @@ def nivel1():
         ***************************************************************************
                     Instituto Tecnológio de Costa Rica
                         Ingeniería en Computadores
-                        
+
         Función: nave
         Funciones internas: condicion, asteroide_move, recursive_move, reverse_move
         Lenguaje: Python 3.9.5
@@ -397,7 +398,7 @@ def nivel1():
         After3 = 0
         C_vent_nivel1.impact = load_mp3('stone.mp3')
         C_vent_nivel1.hit = load_mp3('hit.mp3')
-        
+
         def start():
             nonlocal C_vent_nivel1
             sleep(1)
@@ -414,16 +415,16 @@ def nivel1():
                 return recursive_move(Ast_x, Ast_y)
             elif Ast == 2:
                 C_vent_nivel1.after_cancel(After2)
-                return recursive_move2(Ast_x, Ast_y)   
+                return recursive_move2(Ast_x, Ast_y)
             elif Ast == 3:
                 C_vent_nivel1.after_cancel(After3)
                 return recursive_move3(Ast_x, Ast_y)
-            
+
         #------------------------------------------------------------------------------------------------------
         def recursive_move(X,Y):
             global vida
-            nonlocal C_vent_nivel1, Asteroide, After, sprite, Vida       
-            C_vent_nivel1.move(Asteroide, X, Y)                
+            nonlocal C_vent_nivel1, Asteroide, After, sprite, Vida
+            C_vent_nivel1.move(Asteroide, X, Y)
             After = C_vent_nivel1.after(45, recursive_move, X,Y)
             Coords = C_vent_nivel1.coords(Asteroide)
             Asteroide_bx = C_vent_nivel1.bbox(Asteroide)
@@ -452,7 +453,7 @@ def nivel1():
 
         def recursive_move2(X,Y):
             global vida
-            nonlocal C_vent_nivel1, Asteroide2, After2, sprite, Vida 
+            nonlocal C_vent_nivel1, Asteroide2, After2, sprite, Vida
             C_vent_nivel1.move(Asteroide2, X, Y)
             After2 = C_vent_nivel1.after(45, recursive_move2, X,Y)
             Coords = C_vent_nivel1.coords(Asteroide2)
@@ -482,7 +483,7 @@ def nivel1():
 
         def recursive_move3(X,Y):
             global vida
-            nonlocal C_vent_nivel1, Asteroide3, After3, sprite, Vida 
+            nonlocal C_vent_nivel1, Asteroide3, After3, sprite, Vida
             C_vent_nivel1.move(Asteroide3, X, Y)
             After3 = C_vent_nivel1.after(45, recursive_move3, X,Y)
             Coords = C_vent_nivel1.coords(Asteroide3)
@@ -514,7 +515,7 @@ def nivel1():
         def random_coords2(Ast):
             nonlocal After, C_vent_nivel1, After2, After3
             Ast_x = random.randint(-6,-3)
-            Ast_y = random.randint(-6,6)            
+            Ast_y = random.randint(-6,6)
             if Ast == 1:
                 C_vent_nivel1.after_cancel(After)
                 return recursive_move(Ast_x, Ast_y)
@@ -523,8 +524,8 @@ def nivel1():
                 return recursive_move2(Ast_x, Ast_y)
             elif Ast == 3:
                 C_vent_nivel1.after_cancel(After3)
-                return recursive_move3(Ast_x, Ast_y)  
-            
+                return recursive_move3(Ast_x, Ast_y)
+
         def random_coords3(Ast):
             nonlocal After, C_vent_nivel1, After2, After3
             Ast_x = random.randint(-6,6)
@@ -537,9 +538,9 @@ def nivel1():
                 return recursive_move2(Ast_x, Ast_y)
             elif Ast == 3:
                 C_vent_nivel1.after_cancel(After3)
-                return recursive_move3(Ast_x, Ast_y)  
-        
-        Thread(target = start).start()    
+                return recursive_move3(Ast_x, Ast_y)
+
+        Thread(target = start).start()
 
     asteroides()
 
@@ -572,6 +573,7 @@ def nivel2():
                     Ingeniería en Computadores
                     
     Función: nivel2
+    Sub-módulos: nave, asteroide
     Lenguaje: Python 3.9.5
     Autores: Byron Mata F.
              Gustavo Alvarado A.
@@ -581,6 +583,8 @@ def nivel2():
     Entradas: N/D
     Restricciones: N/D
     Salidas: N/D
+
+
 
     ***************************************************************************"""
     global vida, username, sgnds, pnts, FLAG, vent_sala
@@ -949,6 +953,7 @@ def nivel3():
                     Ingeniería en Computadores
                     
     Función: nivel3
+    Sub-módulos: nave, asteroide
     Lenguaje: Python 3.9.5
     Autores: Byron Mata F.
              Gustavo Alvarado A.
@@ -1591,24 +1596,25 @@ B_creditos.place(x=5,y=665)
 
 #------------------------------------------------------------------------------------------------------
 def save_highscore():
-    global e_jugador, pnts
     """
-    ***************************************************************************
-                Instituto Tecnológio de Costa Rica
-                    Ingeniería en Computadores
+     ***************************************************************************
+                 Instituto Tecnológio de Costa Rica
+                     Ingeniería en Computadores
 
-    Función: save_highscore
-    Lenguaje: Python 3.9.5
-    Autores: Byron Mata F.
-             Gustavo Alvarado A.
+     Función: save_highscore
+     Lenguaje: Python 3.9.5
+     Autores: Byron Mata F.
+              Gustavo Alvarado A.
 
-    Vesión: 1.0
-    Fecha Última Edición: junio 17/2021
-    Entradas: N/D
-    Restricciones: N/D
-    Salidas: puntaje guardado o actualizado
+     Vesión: 1.0
+     Fecha Última Edición: junio 17/2021
+     Entradas: N/D
+     Restricciones: N/D
+     Salidas: puntaje guardado o actualizado
 
-    ***************************************************************************"""
+     ***************************************************************************"""
+    global e_jugador, pnts
+
     Nombre_usuario = e_jugador.get()
     Score_Usuario = Nombre_usuario + "---" + str(pnts) + ","
     Arch = open("Highscore.txt", "r+")
@@ -1878,7 +1884,7 @@ B_sala.place(x=200, y=480)
 ventana.mainloop()
 
 #------------------------------------------------------------------------------------------------------
-def doc():
+def mi_auto_doc():
     print(load_image.__doc__)
     print(load_sprite.__doc__)
     print(validar.__doc__)
@@ -1891,5 +1897,3 @@ def doc():
     print(save_highscore.__doc__)
     print(quicksort_pnts.__doc__)
     print(insertion_sort_names.__doc__)
-    #print(nave.__doc__)
-    #print(asteroides.__doc__)
